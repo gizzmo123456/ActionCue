@@ -1,0 +1,23 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "ActionCue_editor",
+	"Description": "Set Action cue points in time with audio clips via a visual audio display",
+	"Category": "Other",
+	"CreatedBy": "Ashley Sands",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": true,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "ActionCue_editor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
