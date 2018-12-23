@@ -214,7 +214,9 @@ void FActionCue_editorModule::Setup_Buttons()
 	if(seekButtons.Num() != seekButtonsToDisplay )
 	{
 		seekButtons.Empty();
-		seekButtons.AddDefaulted( seekButtonsToDisplay );
+		for ( int i = 0; i < seekButtonsToDisplay; i++ )
+			seekButtons.Add( new SeekButton() );
+		//seekButtons.AddDefaulted( seekButtonsToDisplay );
 
 		FString mes = "Seek Button Count: " + FString::FromInt( seekButtons.Num() );
 		UE_LOG( LogTemp, Warning, TEXT( "%s" ), *mes );
@@ -247,11 +249,11 @@ void FActionCue_editorModule::DrawButtons( TSharedRef<SHorizontalBox> buttonHold
 	{
 		switch(buttonType)
 		{
-			case Seek:
+			case ButtonTypes::Seek:
 				button = seekButtons[ i ];
 				DrawButton( buttonHold, button );
 				break;
-			case Select:
+			case ButtonTypes::Select:
 
 				break;
 		}
@@ -269,8 +271,8 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 	// we do this for each button as there all different heights
 	TSharedRef< SVerticalBox > buttonHeightBox = SNew( SVerticalBox );
 	SVerticalBox::FSlot& vSlot = buttonHeightBox->AddSlot()
-		.MaxHeight( 200.0f * button->GetValue() )
-		.Padding( 5.0f, ( 200.0f * ( 1.0f - button->GetValue() ) ) / 2.0f )
+		.MaxHeight( 50.0f + (150.0f * button->GetValue()) )
+		.Padding( 5.0f, ( 150.0f * ( 1.0f - button->GetValue() ) ) / 2.0f )
 		[
 			button->GetButton()
 		];
@@ -288,22 +290,9 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 
 void FActionCue_editorModule::Build_SeekContent()
 {
-	//TSharedRef<SHorizontalBox> content = 
-		SeekContent = SNew(SHorizontalBox)
-	+SHorizontalBox::Slot()
-	[
-		SNew( SBox )
-			.HAlign( HAlign_Center )
-			.VAlign( VAlign_Center )
-			[
-				SNew( STextBlock )
-				.Text( FText::FromString( TEXT( "Im The Replacment" ) ) )
-
-			]
-	];
-
-	//SeekContent = content;
-
+	// Create a new seek content hold and generate its contents
+	SeekContent = SNew( SHorizontalBox );
+	DrawButtons( SeekContent.ToSharedRef(), ButtonTypes::Seek );
 }
 
 FReply FActionCue_editorModule::TEMP_ButtonAction()
