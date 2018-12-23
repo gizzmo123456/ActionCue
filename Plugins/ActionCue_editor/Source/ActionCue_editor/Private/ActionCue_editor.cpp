@@ -71,6 +71,7 @@ void FActionCue_editorModule::ShutdownModule()
 
 TSharedRef<SDockTab> FActionCue_editorModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
+	Setup_Buttons();
 
 	SeekContent = SNew( SHorizontalBox )
 		+ SHorizontalBox::Slot()
@@ -205,6 +206,18 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 	];
 
 	return content;
+}
+
+void FActionCue_editorModule::Setup_Buttons()
+{
+	//Clear the arrays in-case this is a refresh.
+	seekButtons.Empty();
+
+	seekButtons.AddDefaulted( seekButtonsToDisplay );
+
+	FString mes = "Seek Button Count: " + FString::FromInt( seekButtons.Num() );
+	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *mes );
+
 }
 
 void FActionCue_editorModule::Build_SeekContent()

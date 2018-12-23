@@ -56,11 +56,13 @@ private:
 	/** Build and Returns the main display */
 	TSharedRef<SBox> BuildContent_Display();
 	
+	void Setup_Buttons();
+
 	//Seek Content
 	TSharedPtr< SHorizontalBox > SeekContent;
 	void Build_SeekContent();
 
-
+	int seekButtonsToDisplay = 50;
 	TArray<SeekButton> seekButtons;
 
 	//Todo:
