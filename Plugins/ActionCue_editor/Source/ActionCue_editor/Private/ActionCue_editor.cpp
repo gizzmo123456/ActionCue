@@ -172,10 +172,9 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 			[
 				//Details Content
 
-				//SNew( STextBlock )
-				//.Text( FText::FromString( TEXT( "Details" ) ) )
-				SNew(SButton)
-				.OnClicked_Raw(this, &FActionCue_editorModule::TEMP_ButtonAction)
+				SNew( STextBlock )
+				.Text( FText::FromString( TEXT( "Details" ) ) )
+				
 			]
 		]
 
@@ -184,8 +183,12 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 		.Padding( 0, 0 )
 		[
 			//Cue Tools
+			/*
 			SNew( STextBlock )
 			.Text( FText::FromString( TEXT( "Tools" ) ) )
+			*/
+			SNew( SButton )
+			.OnClicked_Raw( this, &FActionCue_editorModule::TEMP_ButtonAction )
 		]
 
 		+SVerticalBox::Slot()
