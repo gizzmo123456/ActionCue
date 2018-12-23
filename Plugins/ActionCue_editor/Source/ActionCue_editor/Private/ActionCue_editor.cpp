@@ -211,12 +211,16 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 void FActionCue_editorModule::Setup_Buttons()
 {
 	//Clear the arrays in-case this is a refresh.
-	seekButtons.Empty();
+	if(seekButtons.Num() != seekButtonsToDisplay )
+	{
+		seekButtons.Empty();
+		seekButtons.AddDefaulted( seekButtonsToDisplay );
 
-	seekButtons.AddDefaulted( seekButtonsToDisplay );
+		FString mes = "Seek Button Count: " + FString::FromInt( seekButtons.Num() );
+		UE_LOG( LogTemp, Warning, TEXT( "%s" ), *mes );
 
-	FString mes = "Seek Button Count: " + FString::FromInt( seekButtons.Num() );
-	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *mes );
+	}
+	
 
 }
 
