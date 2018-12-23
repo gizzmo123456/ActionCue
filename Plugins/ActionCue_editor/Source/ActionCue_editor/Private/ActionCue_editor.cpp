@@ -230,11 +230,61 @@ int FActionCue_editorModule::GetButtonsToDisplay( ButtonTypes buttonTypes )
 	{
 		case Seek:
 			return seekButtonsToDisplay;
+		case Select:
+			return 0;
 	}
 
 	return 0;
 }
 
+void FActionCue_editorModule::DrawButtons( TSharedRef<SHorizontalBox> buttonHold, ButtonTypes buttonType )
+{
+	int buttonCount = GetButtonsToDisplay( buttonType );
+	BaseButton* button;
+
+	//Extract the button from the array of button type
+	for ( int i = 0; i < buttonCount; i++ )
+	{
+		switch(buttonType)
+		{
+			case Seek:
+				button = seekButtons[ i ];
+				DrawButton( buttonHold, button );
+				break;
+			case Select:
+
+				break;
+		}
+
+		
+
+	}
+
+}
+
+void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHold, BaseButton* button )
+{
+
+	// Create a vertical box so the button is the correct height
+	// we do this for each button as there all different heights
+	TSharedRef< SVerticalBox > buttonHeightBox = SNew( SVerticalBox );
+	SVerticalBox::FSlot& vSlot = buttonHeightBox->AddSlot()
+		.MaxHeight( 200.0f * button->GetValue() )
+		.Padding( 5.0f, ( 200.0f * ( 1.0f - button->GetValue() ) ) / 2.0f )
+		[
+			button->GetButton()
+		];
+
+	// Create a new horizontal slot in the button hold so all the buttons have the same width and horizontal spacing
+	// and insert the vertical box holding the button
+	SHorizontalBox::FSlot& hSlot = buttonHold->AddSlot()
+		.MaxWidth( 5.0f )
+		.Padding( 6.0f, 0.0f )
+		[
+			buttonHeightBox
+		];
+
+}
 
 void FActionCue_editorModule::Build_SeekContent()
 {
@@ -243,13 +293,13 @@ void FActionCue_editorModule::Build_SeekContent()
 	+SHorizontalBox::Slot()
 	[
 		SNew( SBox )
-		.HAlign( HAlign_Center )
-		.VAlign( VAlign_Center )
-		[
-			SNew( STextBlock )
-			.Text( FText::FromString( TEXT( "Im The Replacment" ) ) )
+			.HAlign( HAlign_Center )
+			.VAlign( VAlign_Center )
+			[
+				SNew( STextBlock )
+				.Text( FText::FromString( TEXT( "Im The Replacment" ) ) )
 
-		]
+			]
 	];
 
 	//SeekContent = content;

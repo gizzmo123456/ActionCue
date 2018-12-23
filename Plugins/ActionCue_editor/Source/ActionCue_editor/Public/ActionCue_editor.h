@@ -68,7 +68,7 @@ private:
 	/** Draws all buttons of button type to button hold*/
 	void DrawButtons( TSharedRef< SHorizontalBox > buttonHold, ButtonTypes buttonType );	//This is so we can cast to BaseButton.
 	/** Draws a single BaseButton to button hold*/
-	void DrawButton( TSharedRef< SHorizontalBox > buttonHold, BaseButton buttonToDraw );
+	void DrawButton( TSharedRef< SHorizontalBox > buttonHold, BaseButton* buttonToDraw );
 
 	//Seek Content
 	TSharedPtr< SHorizontalBox > SeekContent;
