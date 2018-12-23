@@ -13,7 +13,7 @@ class ACTIONCUE_EDITOR_API BaseButton
 {
 public:
 	BaseButton();
-	~BaseButton();
+	virtual ~BaseButton();
 	/** Get the button being displayed */
 	TSharedRef<SButton> GetButton();
 	/** Get the display size value */
