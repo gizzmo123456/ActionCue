@@ -14,6 +14,9 @@ class SDockTab;
 class SHorizontalBox;
 class FReply;
 
+class SeekButton;
+//class CueSelectButton;
+
 class FActionCue_editorModule : public IModuleInterface
 {
 /////// Default standalone editor
@@ -56,6 +59,8 @@ private:
 	//Seek Content
 	TSharedPtr< SHorizontalBox > SeekContent;
 	void Build_SeekContent();
+
+	TArray<SeekButton> seekButtons;
 
 	//Todo:
 	//Build Details Content

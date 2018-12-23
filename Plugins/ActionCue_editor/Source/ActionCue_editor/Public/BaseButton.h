@@ -35,7 +35,7 @@ public:
 protected:
 	TSharedRef<SButton> button = SNew( SButton );
 
-	virtual FSlateColor GetButtonColour() const = 0;	//Button color callback.
+	virtual FSlateColor GetButtonColour() = 0;	//Button color callback.
 	virtual FReply ButtonAction() = 0;					//Button Action callback.
 
 private:
