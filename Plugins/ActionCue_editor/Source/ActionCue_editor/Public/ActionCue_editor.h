@@ -7,6 +7,10 @@
 
 class FToolBarBuilder;
 class FMenuBuilder;
+class FTabManager;
+class SBox;
+class SDockTab;
+class FReply;
 
 class FActionCue_editorModule : public IModuleInterface
 {
@@ -49,7 +53,5 @@ private:
 
 	///////////Temp!!
 	//build temp default view.
-	FReply TEMP_ButtonAction();
-	 
-
+	FReply TEMP_ButtonAction();  
 };

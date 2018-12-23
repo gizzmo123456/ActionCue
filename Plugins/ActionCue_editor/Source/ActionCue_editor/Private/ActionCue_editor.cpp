@@ -111,14 +111,14 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 {
 /* Window layout
 |---------------------------------------------|
-|	Seek 						|	Details	  |
-|								|			  |
+|  Seek                         |  Details    |
+|                               |             |
 |---------------------------------------------|
-|	Cue Tool bar							  |
+|  Cue Tool bar                               |
 |---------------------------------------------|
-|	Cue Select								  |
-|											  |
-|											  |
+|  Cue Select                                 |
+|                                             |
+|                                             |
 |---------------------------------------------|
 */
 
@@ -145,16 +145,16 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 				SNew( STextBlock )
 				.Text( FText::FromString( TEXT( "Sample Seek / Audio Navigator" ) ) )
 			]
-
+	
 			+SHorizontalBox::Slot()
 			.VAlign( VAlign_Top )
 			.HAlign( HAlign_Right )
 			.MaxWidth(400.0f)
 			[
 				//Details Content
-/*
-				SNew( STextBlock )
-				.Text( FText::FromString( TEXT( "Details" ) ) )*/
+
+				//SNew( STextBlock )
+				//.Text( FText::FromString( TEXT( "Details" ) ) )
 				SNew(SButton)
 				.OnClicked_Raw(this, &FActionCue_editorModule::TEMP_ButtonAction)
 			]
