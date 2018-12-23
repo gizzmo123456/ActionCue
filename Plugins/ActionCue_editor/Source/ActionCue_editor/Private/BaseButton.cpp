@@ -4,11 +4,13 @@
 
 BaseButton::BaseButton()
 {
-
+	UE_LOG( LogTemp, Warning, TEXT( "wtf" ) )
+	value = 0.5f;
+	
 	button = SNew( SButton )
 	.OnClicked_Raw( this, &BaseButton::ButtonAction )
 	.ButtonColorAndOpacity_Raw( this, &BaseButton::GetButtonColour );
-
+	
 }
 
 BaseButton::~BaseButton(){}
@@ -47,4 +49,11 @@ void BaseButton::SetSampleRange( int startSanp, int endSamp )
 {
 	startSample = startSanp;
 	endSample = endSamp;
+}
+
+FReply BaseButton::ButtonAction()
+{
+	buttonIsSet = !buttonIsSet;
+
+	return FReply::Handled();
 }

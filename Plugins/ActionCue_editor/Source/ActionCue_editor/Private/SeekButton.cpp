@@ -2,11 +2,17 @@
 
 #include "SeekButton.h"
 
-SeekButton::SeekButton()
+SeekButton::SeekButton():BaseButton()
 {
-
-	SetValue(0.5f);
-
+	UE_LOG(LogTemp, Warning, TEXT("hi"))
+	SetValue(FMath::RandRange(0.0f, 1.0f));
+	
+	/*
+	TSharedRef<SButton> helloo_button = SNew( SButton )
+		.OnClicked_Raw( this, &SeekButton::ButtonAction )
+		.ButtonColorAndOpacity_Raw( this, &SeekButton::GetButtonColour );
+	*/
+		
 }
 
 SeekButton::~SeekButton()
@@ -15,6 +21,7 @@ SeekButton::~SeekButton()
 
 FSlateColor SeekButton::GetButtonColour() const
 {
+	UE_LOG( LogTemp, Warning, TEXT( "Boo" ) )
 	FLinearColor col = IsSet() ? FLinearColor( 1.0f, 1.0f, 0.0f ) : FLinearColor( 0.0f, 1.0f, 1.0f );
 	return col;
 }
@@ -23,5 +30,5 @@ FReply SeekButton::ButtonAction()
 {
 	//Do some things...
 
-	return FReply::Handled();
+	return BaseButton::ButtonAction();
 }

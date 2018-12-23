@@ -29,14 +29,14 @@ public:
 	/** Checks if the sample id is within the range assigned to this button */
 	bool IsSampleInRange( int sampleId );
 	/** Assign the sample range for this button */
-	void SetSampleRange( int startSanp, int endSamp );
+	void SetSampleRange( int startSanp, int endSamp ); 
 
 
 protected:
 	TSharedRef<SButton> button = SNew( SButton );
 
 	virtual FSlateColor GetButtonColour() const = 0;	//Button color callback.
-	virtual FReply ButtonAction() = 0;					//Button Action callback.
+	virtual FReply ButtonAction();						//Button Action callback.
 
 private:
 	float value = 0.0f;			//value range: 0.0f - 1.0f
