@@ -8,8 +8,10 @@
 class FToolBarBuilder;
 class FMenuBuilder;
 class FTabManager;
+
 class SBox;
 class SDockTab;
+class SHorizontalBox;
 class FReply;
 
 class FActionCue_editorModule : public IModuleInterface
@@ -42,11 +44,20 @@ private:
 	/** returns Main Tab Instance. Used to hold all the panels. */
 	TSharedRef<SDockTab> GetTab(); //Use '.SetContent' to update the display.
 
+     
+	/** Builds and repaints the tab content 
+	  * Does not build any panel content (eg. seek content)
+	  */
+	void RepaintTab();
+	  
 	/** Build and Returns the main display */
 	TSharedRef<SBox> BuildContent_Display();
 	
+	//Seek Content
+	TSharedPtr< SHorizontalBox > SeekContent;
+	void Build_SeekContent();
+
 	//Todo:
-	//Build Seek Content
 	//Build Details Content
 	//Build Cue Select Content
 	//Build tool bars??
@@ -54,4 +65,5 @@ private:
 	///////////Temp!!
 	//build temp default view.
 	FReply TEMP_ButtonAction();  
+
 };

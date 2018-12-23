@@ -70,6 +70,19 @@ void FActionCue_editorModule::ShutdownModule()
 TSharedRef<SDockTab> FActionCue_editorModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
 
+	SeekContent = SNew( SHorizontalBox )
+		+ SHorizontalBox::Slot()
+		[
+			SNew( SBox )
+			.HAlign( HAlign_Center )
+		.VAlign( VAlign_Center )
+		[
+			SNew( STextBlock )
+			.Text( FText::FromString( TEXT( "Im The Seek Content" ) ) )
+
+		]
+		];
+
 	return  SNew( SDockTab )
 		.TabRole( ETabRole::NomadTab )
 		[
@@ -107,6 +120,11 @@ TSharedRef<SDockTab> FActionCue_editorModule::GetTab()
 
 } 
 
+void FActionCue_editorModule::RepaintTab()
+{
+	GetTab()->SetContent( BuildContent_Display() );
+}
+
 TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 {
 /* Window layout
@@ -142,8 +160,9 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 			.MaxWidth(600.0f)
 			[
 				//Sample Seek content
-				SNew( STextBlock )
-				.Text( FText::FromString( TEXT( "Sample Seek / Audio Navigator" ) ) )
+				//SNew( STextBlock )
+				//.Text( FText::FromString( TEXT( "Sample Seek / Audio Navigator" ) ) )
+				SeekContent.ToSharedRef()
 			]
 	
 			+SHorizontalBox::Slot()
@@ -183,9 +202,31 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 	return content;
 }
 
+void FActionCue_editorModule::Build_SeekContent()
+{
+	//TSharedRef<SHorizontalBox> content = 
+		SeekContent = SNew(SHorizontalBox)
+	+SHorizontalBox::Slot()
+	[
+		SNew( SBox )
+		.HAlign( HAlign_Center )
+		.VAlign( VAlign_Center )
+		[
+			SNew( STextBlock )
+			.Text( FText::FromString( TEXT( "Im The Replacment" ) ) )
+
+		]
+	];
+
+	//SeekContent = content;
+
+}
+
 FReply FActionCue_editorModule::TEMP_ButtonAction()
 {
-
+	Build_SeekContent();
+	RepaintTab();
+/*
 	FText WidgetText = FText::FromString( TEXT( "Im The Replacment" ) );
 	
 	GetTab()->SetContent(
@@ -204,7 +245,7 @@ FReply FActionCue_editorModule::TEMP_ButtonAction()
 		]
 	
 	);
-
+*/
 	return FReply::Handled();
 
 }
