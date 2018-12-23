@@ -39,7 +39,7 @@ protected:
 	virtual FReply ButtonAction() = 0;					//Button Action callback.
 
 private:
-	float value = 0.0f;
+	float value = 0.0f;			//value range: 0.0f - 1.0f
 	bool buttonIsSet = false;
 
 	int startSample = 0;

@@ -5,7 +5,7 @@
 SeekButton::SeekButton()
 {
 
-	SetValue(1.0f);
+	SetValue(0.5f);
 
 }
 
