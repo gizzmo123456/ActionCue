@@ -15,6 +15,7 @@ class SHorizontalBox;
 class FReply;
 
 class SeekButton;
+class BaseButton;
 //class CueSelectButton;
 
 class FActionCue_editorModule : public IModuleInterface
@@ -43,6 +44,8 @@ private:
 //protected:
 private:
 
+	
+
 	TSharedPtr<FTabManager> activeTabManager;
 	/** returns Main Tab Instance. Used to hold all the panels. */
 	TSharedRef<SDockTab> GetTab(); //Use '.SetContent' to update the display.
@@ -56,7 +59,13 @@ private:
 	/** Build and Returns the main display */
 	TSharedRef<SBox> BuildContent_Display();
 	
+	enum ButtonTypes { Seek, Select };
+
 	void Setup_Buttons();
+
+	//Need To Implment
+	void DrawButtons( TSharedRef< SHorizontalBox > buttonHold, ButtonTypes buttonType );
+	void DrawButton( TSharedRef< SHorizontalBox > buttonHold, BaseButton buttonToDraw );
 
 	//Seek Content
 	TSharedPtr< SHorizontalBox > SeekContent;
