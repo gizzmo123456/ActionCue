@@ -4,7 +4,6 @@
 
 SeekButton::SeekButton():BaseButton()
 {
-	UE_LOG(LogTemp, Warning, TEXT("hi"))
 	SetValue(FMath::RandRange(0.0f, 1.0f));
 	
 	/*
@@ -21,7 +20,6 @@ SeekButton::~SeekButton()
 
 FSlateColor SeekButton::GetButtonColour() const
 {
-	UE_LOG( LogTemp, Warning, TEXT( "Boo" ) )
 	FLinearColor col = IsSet() ? FLinearColor( 1.0f, 1.0f, 0.0f ) : FLinearColor( 0.0f, 1.0f, 1.0f );
 	return col;
 }

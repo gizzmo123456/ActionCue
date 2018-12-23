@@ -4,7 +4,6 @@
 
 BaseButton::BaseButton()
 {
-	UE_LOG( LogTemp, Warning, TEXT( "wtf" ) )
 	value = 0.5f;
 	
 	button = SNew( SButton )
