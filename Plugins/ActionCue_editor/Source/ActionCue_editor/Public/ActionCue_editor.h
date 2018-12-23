@@ -64,7 +64,10 @@ private:
 	void Setup_Buttons();
 
 	//Need To Implment
-	void DrawButtons( TSharedRef< SHorizontalBox > buttonHold, ButtonTypes buttonType );
+	int GetButtonsToDisplay( ButtonTypes ButtonTypes );
+	/** Draws all buttons of button type to button hold*/
+	void DrawButtons( TSharedRef< SHorizontalBox > buttonHold, ButtonTypes buttonType );	//This is so we can cast to BaseButton.
+	/** Draws a single BaseButton to button hold*/
 	void DrawButton( TSharedRef< SHorizontalBox > buttonHold, BaseButton buttonToDraw );
 
 	//Seek Content
@@ -72,7 +75,7 @@ private:
 	void Build_SeekContent();
 
 	int seekButtonsToDisplay = 50;
-	TArray<SeekButton> seekButtons;
+	TArray<SeekButton*> seekButtons;
 
 	//Todo:
 	//Build Details Content

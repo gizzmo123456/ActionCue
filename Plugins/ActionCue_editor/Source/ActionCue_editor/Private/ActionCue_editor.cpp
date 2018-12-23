@@ -224,6 +224,18 @@ void FActionCue_editorModule::Setup_Buttons()
 
 }
 
+int FActionCue_editorModule::GetButtonsToDisplay( ButtonTypes buttonTypes )
+{
+	switch ( buttonTypes )
+	{
+		case Seek:
+			return seekButtonsToDisplay;
+	}
+
+	return 0;
+}
+
+
 void FActionCue_editorModule::Build_SeekContent()
 {
 	//TSharedRef<SHorizontalBox> content = 
