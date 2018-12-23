@@ -118,6 +118,10 @@ TSharedRef<SDockTab> FActionCue_editorModule::GetTab()
 	//Have a look at InvokeTab!!
 	//return FGlobalTabmanager::Get()->InvokeTab( ActionCue_editorTabName ); //FGlobalTabmanager::Get()->FindExistingLiveTab( ActionCue_editorTabName ).ToSharedRef();
 
+	//Check there is a valid tab manager
+	if ( !activeTabManager.IsValid() )
+		PluginButtonClicked();
+
 	//This is How, it only took me 5hrs to find!
 	return activeTabManager.ToSharedRef()->FindExistingLiveTab( ActionCue_editorTabName ).ToSharedRef();
 
