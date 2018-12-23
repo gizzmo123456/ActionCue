@@ -4,13 +4,15 @@
 
 SeekButton::SeekButton()
 {
+
+
 }
 
 SeekButton::~SeekButton()
 {
 }
 
-FSlateColor SeekButton::GetButtonColour()
+FSlateColor SeekButton::GetButtonColour() const
 {
 	FLinearColor col = IsSet() ? FLinearColor( 1.0f, 1.0f, 0.0f ) : FLinearColor( 0.0f, 1.0f, 1.0f );
 	return col;

@@ -60,6 +60,7 @@ private:
 	TSharedPtr< SHorizontalBox > SeekContent;
 	void Build_SeekContent();
 
+
 	TArray<SeekButton> seekButtons;
 
 	//Todo:

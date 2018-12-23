@@ -28,7 +28,7 @@ void BaseButton::SetValue(float v)
 	value = v;
 }
 
-bool BaseButton::IsSet()
+bool BaseButton::IsSet() const
 {
 	return buttonIsSet;
 }

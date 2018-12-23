@@ -22,7 +22,7 @@ public:
 	void SetValue( float v ); 
 
 	/** has the button been selected for use */
-	bool IsSet();
+	bool IsSet() const;
 	/** set the selected value */
 	void Set( bool b );
 
@@ -35,7 +35,7 @@ public:
 protected:
 	TSharedRef<SButton> button = SNew( SButton );
 
-	virtual FSlateColor GetButtonColour() = 0;	//Button color callback.
+	virtual FSlateColor GetButtonColour() const = 0;	//Button color callback.
 	virtual FReply ButtonAction() = 0;					//Button Action callback.
 
 private:

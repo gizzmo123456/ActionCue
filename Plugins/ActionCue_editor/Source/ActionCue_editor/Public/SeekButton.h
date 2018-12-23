@@ -15,7 +15,7 @@ public:
 	virtual ~SeekButton();
 
 protected:
-	virtual FSlateColor GetButtonColour() override;	//Button color callback.
+	virtual FSlateColor GetButtonColour() const override;	//Button color callback.
 	virtual FReply ButtonAction() override;					//Button Action callback.
 
 };

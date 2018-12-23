@@ -12,6 +12,8 @@
 
 #include "Framework/MultiBox/MultiBoxBuilder.h"
 
+#include "SeekButton.h"
+
 static const FName ActionCue_editorTabName("ActionCue_editor");
 //TSharedPtr<SDockTab> FActionCue_editorModule::main__t;
 
