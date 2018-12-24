@@ -92,8 +92,11 @@ private:
 
 	TSharedRef< SHorizontalBox > DetailsRow( FString lable, FString value );
 
-	//Todo:
-	//Build tool bars
+	//Main toolbar content
+	TSharedPtr< SHorizontalBox > toolbarContent;
+	void Build_ToolbarContent();
+
+
 
 	///////////Temp!!
 	//build temp default view.

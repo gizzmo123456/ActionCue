@@ -113,6 +113,16 @@ TSharedRef<SDockTab> FActionCue_editorModule::OnSpawnPluginTab(const FSpawnTabAr
 		]
 	];
 
+	toolbarContent = SNew( SHorizontalBox )
+	+SHorizontalBox::Slot()
+	.MaxWidth(45.0f)
+	.Padding(5.0f, 5.0f)
+	[
+		SNew( SButton )
+		.OnClicked_Raw( this, &FActionCue_editorModule::TEMP_ButtonAction )
+		.Text(FText::FromString(FString("Load")))
+	];
+
 	/////////// Eof TEMP place holds
 
 	return  SNew( SDockTab )
@@ -215,7 +225,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 		]
 
 		+SVerticalBox::Slot()
-		.MaxHeight(50.0f)
+		.MaxHeight(35.0f)
 		.Padding( 0, 0 )
 		[
 			//Cue Tools
@@ -223,8 +233,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 			SNew( STextBlock )
 			.Text( FText::FromString( TEXT( "Tools" ) ) )
 			*/
-			SNew( SButton )
-			.OnClicked_Raw( this, &FActionCue_editorModule::TEMP_ButtonAction )
+			toolbarContent.ToSharedRef()
 		]
 
 		+SVerticalBox::Slot()
@@ -394,12 +403,40 @@ TSharedRef<SHorizontalBox> FActionCue_editorModule::DetailsRow( FString lable, F
 	return row;
 }
 
+void FActionCue_editorModule::Build_ToolbarContent()
+{
+
+	toolbarContent = SNew( SHorizontalBox )
+	+ SHorizontalBox::Slot()
+	.MaxWidth( 55.0f )
+	.Padding( 5.0f, 5.0f )
+	[
+		SNew( SButton )
+		.OnClicked_Raw( this, &FActionCue_editorModule::TEMP_ButtonAction )
+		.Text( FText::FromString( FString( "Load" ) ) )
+
+	] 
+	+ SHorizontalBox::Slot()
+	.MaxWidth( 55.0f )
+	.Padding( 5.0f, 5.0f )
+	[
+		SNew( SButton )
+		.OnClicked_Raw( this, &FActionCue_editorModule::TEMP_ButtonAction )
+		[
+			SNew( STextBlock )
+			.Text( FText::FromString( "Refresh" ) )
+		]
+	];
+
+}
+
 FReply FActionCue_editorModule::TEMP_ButtonAction()
 {
 	//Build all content
 	Build_SeekContent();
 	Build_CueSelectContent();
 	Build_DetailsContent();
+	Build_ToolbarContent();
 
 	//Repaint the tab
 	RepaintTab();
