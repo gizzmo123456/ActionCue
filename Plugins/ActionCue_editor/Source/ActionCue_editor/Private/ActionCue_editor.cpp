@@ -201,7 +201,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 		SNew(SVerticalBox)
 		+SVerticalBox::Slot()
 		.MaxHeight(625.0f)
-		.Padding( 15.0f, 25.0f, 15.0f, 25.0f )
+		.Padding( 15.0f, 125.0f, 15.0f, -25.0f )
 		[
 			//Split the first row into 2 columns
 			SNew(SHorizontalBox)
@@ -209,15 +209,16 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 			.VAlign(VAlign_Fill)
 			.HAlign(HAlign_Left)
 			.MaxWidth(1320.0f)
-			.Padding(0.0f, 5.0f, 0.0f, 5.0f)
+			.Padding(0.0f, 0.0f, 0.0f, 0.0f)
 			[
 				//Sample Seek content
 				seekContent.ToSharedRef()
 			]
 	
 			+SHorizontalBox::Slot()
-			.VAlign( VAlign_Fill )
+			.VAlign( VAlign_Top )
 			.HAlign( HAlign_Fill )
+			.Padding(0.0f, -100.0f, 0.0f, 0.0f)
 			.MaxWidth(1000.0f)
 			[
 				//Details Content
@@ -227,7 +228,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 		+ SVerticalBox::Slot()
 		.MaxHeight( 25.0f )
 		.VAlign(VAlign_Bottom)
-		.Padding( 0.0f, 10.0f, 0.0f, 0.0f )
+		.Padding( 0.0f, 100.0f, 0.0f, -50.0f )
 		[
 			// Seek bar
 			SNew( STextBlock )
@@ -235,7 +236,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 		]
 		+SVerticalBox::Slot()
 		.MaxHeight(35.0f)
-		.Padding( 0.0f, 10.0f, 0.0f, 0.0f )
+		.Padding( 0.0f, 50.0f, 0.0f, 20.0f )
 		[
 			//Cue Tools
 			toolbarContent.ToSharedRef()
@@ -243,7 +244,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 
 		+SVerticalBox::Slot()
 		.MaxHeight(325.0f)
-		.Padding( 15.0f, 100.0f, 15.0f, 25.0f)
+		.Padding( 15.0f, 125.0f, 15.0f, -75.0f)
 		.VAlign(VAlign_Fill)
 		[
 			//Action Cue Select
@@ -338,8 +339,8 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 	// and insert the vertical box holding the button
 	SHorizontalBox::FSlot& hSlot = buttonHold->AddSlot()
 		//.MaxWidth( 250.0f )
-.VAlign(VAlign_Fill)
-		.Padding( 3.0f, -50.0f )
+		.VAlign(VAlign_Fill)
+		.Padding( 3.0f, -150.0f )
 		[
 			buttonHeightBox
 		];
