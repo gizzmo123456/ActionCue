@@ -14,9 +14,9 @@ class SDockTab;
 class SHorizontalBox;
 class FReply;
 
-class SeekButton;
 class BaseButton;
-//class CueSelectButton;
+class SeekButton;
+class CueSelectButton;
 
 class FActionCue_editorModule : public IModuleInterface
 {
@@ -75,7 +75,14 @@ private:
 	void Build_SeekContent();
 
 	int seekButtonsToDisplay = 50;
-	TArray<SeekButton*> seekButtons;
+	TArray< SeekButton* > seekButtons;
+
+	//Cue Select Content
+	TSharedPtr< SHorizontalBox > CueSelectContent;
+	void Build_CueSelectContent();
+
+	int cueSelectButtonsToDisplay = 100;
+	TArray< CueSelectButton* > cueSelectButtons;
 
 	//Todo:
 	//Build Details Content
@@ -84,6 +91,6 @@ private:
 
 	///////////Temp!!
 	//build temp default view.
-	FReply TEMP_ButtonAction();  
+	FReply TEMP_ButtonAction();
 
 };

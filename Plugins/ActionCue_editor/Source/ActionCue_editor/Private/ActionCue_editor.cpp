@@ -13,6 +13,8 @@
 #include "Framework/MultiBox/MultiBoxBuilder.h"
 
 #include "SeekButton.h"
+#include "CueSelectButton.h"
+
 
 static const FName ActionCue_editorTabName("ActionCue_editor");
 //TSharedPtr<SDockTab> FActionCue_editorModule::main__t;
@@ -73,18 +75,33 @@ TSharedRef<SDockTab> FActionCue_editorModule::OnSpawnPluginTab(const FSpawnTabAr
 {
 	Setup_Buttons();
 
+	///////////// TEMP place holds
 	SeekContent = SNew( SHorizontalBox )
-		+ SHorizontalBox::Slot()
-		[
-			SNew( SBox )
-			.HAlign( HAlign_Center )
+	+ SHorizontalBox::Slot()
+	[
+		SNew( SBox )
+		.HAlign( HAlign_Center )
 		.VAlign( VAlign_Center )
 		[
 			SNew( STextBlock )
 			.Text( FText::FromString( TEXT( "Im The Seek Content" ) ) )
 
 		]
-		];
+	];
+
+	CueSelectContent = SNew( SHorizontalBox )
+	+ SHorizontalBox::Slot()
+	[
+		SNew( SBox )
+		.HAlign( HAlign_Center )
+		.VAlign( VAlign_Center )
+		[
+			SNew( STextBlock )
+			.Text( FText::FromString( TEXT( "Im The Cue Select Content" ) ) )
+		]
+	];
+
+	/////////// Eof TEMP place holds
 
 	return  SNew( SDockTab )
 		.TabRole( ETabRole::NomadTab )
@@ -203,10 +220,10 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 		.Padding( 15, 15 )
 		[
 			//Action Cue Select
-			SNew( STextBlock )
-			.Text( FText::FromString( TEXT( "Sample Select" ) ) )
+			//SNew( STextBlock )
+			//.Text( FText::FromString( TEXT( "Sample Select" ) ) )
+			CueSelectContent.ToSharedRef()
 		]
-
 	];
 
 	return content;
@@ -214,7 +231,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 
 void FActionCue_editorModule::Setup_Buttons()
 {
-	//Clear the arrays in-case this is a refresh.
+	//Only update the arrays if the amount of buttons has changed
 	if(seekButtons.Num() != seekButtonsToDisplay )
 	{
 		seekButtons.Empty();
@@ -227,6 +244,16 @@ void FActionCue_editorModule::Setup_Buttons()
 
 	}
 	
+	if ( cueSelectButtons.Num() != cueSelectButtonsToDisplay )
+	{
+		cueSelectButtons.Empty();
+		for ( int i = 0; i < cueSelectButtonsToDisplay; i++ )
+			cueSelectButtons.Add( new CueSelectButton() );
+
+		FString mes = "Cue Select Button Count: " + FString::FromInt( cueSelectButtons.Num() );
+		UE_LOG( LogTemp, Warning, TEXT( "%s" ), *mes );
+
+	}
 
 }
 
@@ -237,7 +264,7 @@ int FActionCue_editorModule::GetButtonsToDisplay( ButtonTypes buttonTypes )
 		case Seek:
 			return seekButtonsToDisplay;
 		case Select:
-			return 0;
+			return cueSelectButtonsToDisplay;
 	}
 
 	return 0;
@@ -258,12 +285,10 @@ void FActionCue_editorModule::DrawButtons( TSharedRef<SHorizontalBox> buttonHold
 				DrawButton( buttonHold, button );
 				break;
 			case ButtonTypes::Select:
-
+				button = cueSelectButtons[ i ];
+				DrawButton( buttonHold, button );
 				break;
 		}
-
-		
-
 	}
 
 }
@@ -299,30 +324,22 @@ void FActionCue_editorModule::Build_SeekContent()
 	DrawButtons( SeekContent.ToSharedRef(), ButtonTypes::Seek );
 }
 
+void FActionCue_editorModule::Build_CueSelectContent()
+{
+	// Create a new cue select content hold and generate its contents.
+	CueSelectContent = SNew( SHorizontalBox );
+	DrawButtons( CueSelectContent.ToSharedRef(), ButtonTypes::Select );
+}
+
 FReply FActionCue_editorModule::TEMP_ButtonAction()
 {
+	//Build all content
 	Build_SeekContent();
+	Build_CueSelectContent();
+
+	//Repaint the tab
 	RepaintTab();
-/*
-	FText WidgetText = FText::FromString( TEXT( "Im The Replacment" ) );
-	
-	GetTab()->SetContent(
-	
-		SNew( SBox )
-		.HAlign( HAlign_Center )
-		.VAlign( VAlign_Center )
-		[
-			SNew( STextBlock )
-			.Text( WidgetText )
-			
-			//	SNew(SButton)
-			//	.OnClicked_Raw(this, FActionCue_editorModule::TEMP_ButtonAction)
-			
-			
-		]
-	
-	);
-*/
+
 	return FReply::Handled();
 
 }
