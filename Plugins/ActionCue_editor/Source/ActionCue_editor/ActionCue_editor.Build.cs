@@ -26,6 +26,7 @@ public class ActionCue_editor : ModuleRules
 			new string[]
 			{
 				"Core",
+				"ActionCue",		//This needs to be the project name!
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
