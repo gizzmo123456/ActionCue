@@ -76,7 +76,7 @@ TSharedRef<SDockTab> FActionCue_editorModule::OnSpawnPluginTab(const FSpawnTabAr
 	Setup_Buttons();
 
 	///////////// TEMP place holds
-	SeekContent = SNew( SHorizontalBox )
+	seekContent = SNew( SHorizontalBox )
 	+ SHorizontalBox::Slot()
 	[
 		SNew( SBox )
@@ -89,7 +89,7 @@ TSharedRef<SDockTab> FActionCue_editorModule::OnSpawnPluginTab(const FSpawnTabAr
 		]
 	];
 
-	CueSelectContent = SNew( SHorizontalBox )
+	cueSelectContent = SNew( SHorizontalBox )
 	+ SHorizontalBox::Slot()
 	[
 		SNew( SBox )
@@ -98,6 +98,18 @@ TSharedRef<SDockTab> FActionCue_editorModule::OnSpawnPluginTab(const FSpawnTabAr
 		[
 			SNew( STextBlock )
 			.Text( FText::FromString( TEXT( "Im The Cue Select Content" ) ) )
+		]
+	];
+
+	detailsContent = SNew( SVerticalBox )
+	+ SVerticalBox::Slot()
+	[
+		SNew( SBox )
+		.HAlign( HAlign_Center )
+		.VAlign( VAlign_Center )
+		[
+			SNew( STextBlock )
+			.Text( FText::FromString( TEXT( "Im The details content" ) ) )
 		]
 	];
 
@@ -181,24 +193,24 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 			+SHorizontalBox::Slot()
 			.VAlign(VAlign_Top)
 			.HAlign(HAlign_Left)
-			.MaxWidth(1220.0f)
+			.MaxWidth(1320.0f)
 			[
 				//Sample Seek content
 				//SNew( STextBlock )
 				//.Text( FText::FromString( TEXT( "Sample Seek / Audio Navigator" ) ) )
-				SeekContent.ToSharedRef()
+				seekContent.ToSharedRef()
 			]
 	
 			+SHorizontalBox::Slot()
 			.VAlign( VAlign_Top )
-			.HAlign( HAlign_Right )
-			.MaxWidth(500.0f)
+			.HAlign( HAlign_Fill )
+			.MaxWidth(1000.0f)
 			[
 				//Details Content
 
-				SNew( STextBlock )
-				.Text( FText::FromString( TEXT( "Details" ) ) )
-				
+				//SNew( STextBlock )
+				//.Text( FText::FromString( TEXT( "Details" ) ) )
+				detailsContent.ToSharedRef()
 			]
 		]
 
@@ -222,7 +234,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 			//Action Cue Select
 			//SNew( STextBlock )
 			//.Text( FText::FromString( TEXT( "Sample Select" ) ) )
-			CueSelectContent.ToSharedRef()
+			cueSelectContent.ToSharedRef()
 		]
 	];
 
@@ -296,7 +308,7 @@ void FActionCue_editorModule::DrawButtons( TSharedRef<SHorizontalBox> buttonHold
 void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHold, BaseButton* button )
 {
 
-	// Todo: For the min width issue i think the padding should be set via a delagate
+	// Todo: For the min width issue i think the padding should be set via a delegate
 	// so that the padding does not got below the HBox max width. 
 
 	// Create a vertical box so the button is the correct height
@@ -323,15 +335,63 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 void FActionCue_editorModule::Build_SeekContent()
 {
 	// Create a new seek content hold and generate its contents
-	SeekContent = SNew( SHorizontalBox );
-	DrawButtons( SeekContent.ToSharedRef(), ButtonTypes::Seek );
+	seekContent = SNew( SHorizontalBox );
+	DrawButtons( seekContent.ToSharedRef(), ButtonTypes::Seek );
 }
 
 void FActionCue_editorModule::Build_CueSelectContent()
 {
 	// Create a new cue select content hold and generate its contents.
-	CueSelectContent = SNew( SHorizontalBox );
-	DrawButtons( CueSelectContent.ToSharedRef(), ButtonTypes::Select );
+	cueSelectContent = SNew( SHorizontalBox );
+	DrawButtons( cueSelectContent.ToSharedRef(), ButtonTypes::Select );
+}
+
+void FActionCue_editorModule::Build_DetailsContent()
+{
+	// Create a new cue select content hold and generate its contents.
+	detailsContent = SNew( SVerticalBox )
+	+SVerticalBox::Slot()
+	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
+	[
+		DetailsRow("Object Name", "Im the object name :)")
+	]
+	+SVerticalBox::Slot()
+	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
+	[
+		DetailsRow("Clip Name", "this is the clip name")
+	]
+	+SVerticalBox::Slot()
+	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
+	[
+		DetailsRow("Clip Length", "0.0 seconds")
+	]
+	+SVerticalBox::Slot()
+	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
+	[
+		DetailsRow("Cue Count", "0")
+	];
+
+}
+
+TSharedRef<SHorizontalBox> FActionCue_editorModule::DetailsRow( FString lable, FString value )
+{
+	TSharedRef<SHorizontalBox> row = SNew( SHorizontalBox )
+	+SHorizontalBox::Slot()
+	.HAlign(HAlign_Left)
+	.MaxWidth(175.0f)
+	[
+		SNew( STextBlock )
+		.Text( FText::FromString( lable ) )
+	]
+	+SHorizontalBox::Slot()
+		.HAlign( HAlign_Left )
+		.MaxWidth( 1800.0f )
+	[
+		SNew( STextBlock )
+		.Text( FText::FromString( value ) )
+	];
+
+	return row;
 }
 
 FReply FActionCue_editorModule::TEMP_ButtonAction()
@@ -339,6 +399,7 @@ FReply FActionCue_editorModule::TEMP_ButtonAction()
 	//Build all content
 	Build_SeekContent();
 	Build_CueSelectContent();
+	Build_DetailsContent();
 
 	//Repaint the tab
 	RepaintTab();

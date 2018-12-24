@@ -8,11 +8,12 @@
 class FToolBarBuilder;
 class FMenuBuilder;
 class FTabManager;
-struct FOptionalSize;
+//struct FOptionalSize;
 
 class SBox;
 class SDockTab;
 class SHorizontalBox;
+class SVerticalBox;
 class FReply;
 
 class BaseButton;
@@ -72,23 +73,27 @@ private:
 	void DrawButton( TSharedRef< SHorizontalBox > buttonHold, BaseButton* buttonToDraw ); 
 
 	//Seek Content
-	TSharedPtr< SHorizontalBox > SeekContent;
+	TSharedPtr< SHorizontalBox > seekContent;
 	void Build_SeekContent();
 
 	int seekButtonsToDisplay = 50;
 	TArray< SeekButton* > seekButtons;
 
 	//Cue Select Content
-	TSharedPtr< SHorizontalBox > CueSelectContent;
+	TSharedPtr< SHorizontalBox > cueSelectContent;
 	void Build_CueSelectContent();
 
 	int cueSelectButtonsToDisplay = 100;
 	TArray< CueSelectButton* > cueSelectButtons;
 
+	//Details Content
+	TSharedPtr< SVerticalBox > detailsContent;   
+	void Build_DetailsContent();
+
+	TSharedRef< SHorizontalBox > DetailsRow( FString lable, FString value );
+
 	//Todo:
-	//Build Details Content
-	//Build Cue Select Content
-	//Build tool bars??
+	//Build tool bars
 
 	///////////Temp!!
 	//build temp default view.
