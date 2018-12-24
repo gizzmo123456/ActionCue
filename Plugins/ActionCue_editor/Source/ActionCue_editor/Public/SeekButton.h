@@ -6,7 +6,7 @@
 #include "BaseButton.h"
 
 /**
- * 
+ *		Seek audio button
  */
 class ACTIONCUE_EDITOR_API SeekButton : public BaseButton
 {
