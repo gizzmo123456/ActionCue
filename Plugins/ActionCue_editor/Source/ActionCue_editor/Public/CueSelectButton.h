@@ -3,13 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseButton.h"
 
 /**
- * 
+ *		Select Action Cue point buttons.
  */
-class ACTIONCUE_EDITOR_API CueSelectButton
+class ACTIONCUE_EDITOR_API CueSelectButton : public BaseButton
 {
 public:
 	CueSelectButton();
-	~CueSelectButton();
+	virtual ~CueSelectButton();
+
+protected:
+	virtual FSlateColor GetButtonColour() const override;	//Button color callback.
+	virtual FReply ButtonAction() override;					//Button Action callback.
+
+
 };
