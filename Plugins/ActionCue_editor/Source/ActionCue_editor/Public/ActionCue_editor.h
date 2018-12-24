@@ -8,6 +8,7 @@
 class FToolBarBuilder;
 class FMenuBuilder;
 class FTabManager;
+struct FOptionalSize;
 
 class SBox;
 class SDockTab;

@@ -166,8 +166,8 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 
 	//Create the main content hold
 	TSharedRef<SBox> content = SNew( SBox )
-	.VAlign(VAlign_Fill)
-	.HAlign(HAlign_Fill)
+	.VAlign( VAlign_Fill )
+	.HAlign( HAlign_Fill )
 	.Padding(15.0f)
 	[
 		//Split the window with 3 rows
@@ -181,7 +181,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 			+SHorizontalBox::Slot()
 			.VAlign(VAlign_Top)
 			.HAlign(HAlign_Left)
-			.MaxWidth(600.0f)
+			.MaxWidth(1220.0f)
 			[
 				//Sample Seek content
 				//SNew( STextBlock )
@@ -192,7 +192,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 			+SHorizontalBox::Slot()
 			.VAlign( VAlign_Top )
 			.HAlign( HAlign_Right )
-			.MaxWidth(400.0f)
+			.MaxWidth(500.0f)
 			[
 				//Details Content
 
@@ -296,12 +296,15 @@ void FActionCue_editorModule::DrawButtons( TSharedRef<SHorizontalBox> buttonHold
 void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHold, BaseButton* button )
 {
 
+	// Todo: For the min width issue i think the padding should be set via a delagate
+	// so that the padding does not got below the HBox max width. 
+
 	// Create a vertical box so the button is the correct height
 	// we do this for each button as there all different heights
 	TSharedRef< SVerticalBox > buttonHeightBox = SNew( SVerticalBox );
 	SVerticalBox::FSlot& vSlot = buttonHeightBox->AddSlot()
-		.MaxHeight( 50.0f + (150.0f * button->GetValue()) )
-		.Padding( 5.0f, ( 150.0f * ( 1.0f - button->GetValue() ) ) / 2.0f )
+		.MaxHeight( 50.0f + ( 150.0f * button->GetValue() ) )
+		.Padding( 0.0f, ( 150.0f * ( 1.0f - button->GetValue() ) ) / 2.0f )
 		[
 			button->GetButton()
 		];
@@ -309,8 +312,8 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 	// Create a new horizontal slot in the button hold so all the buttons have the same width and horizontal spacing
 	// and insert the vertical box holding the button
 	SHorizontalBox::FSlot& hSlot = buttonHold->AddSlot()
-		.MaxWidth( 5.0f )
-		.Padding( 6.0f, 0.0f )
+		//.MaxWidth( 15.0f )
+		.Padding( 3.0f, 0.0f )
 		[
 			buttonHeightBox
 		];
