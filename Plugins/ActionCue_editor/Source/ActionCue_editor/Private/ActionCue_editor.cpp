@@ -10,6 +10,8 @@
 #include "Widgets/Text/STextBlock.h"
 #include "Widgets/Input/SButton.h"
 
+#include "Widgets/SBoxPanel.h"
+
 #include "Framework/MultiBox/MultiBoxBuilder.h"
 
 #include "SeekButton.h"
@@ -169,6 +171,7 @@ TSharedRef<SDockTab> FActionCue_editorModule::GetTab()
 void FActionCue_editorModule::RepaintTab()
 {
 	GetTab()->SetContent( BuildContent_Display() );
+	GetTab()->CacheVolatility();
 }
 
 TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
@@ -177,6 +180,8 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 |---------------------------------------------|
 |  Seek                         |  Details    |
 |                               |             |
+|-------------------------------|-------------|
+|<| Seek Bar / zoom           |>|             |
 |---------------------------------------------|
 |  Cue Tool bar                               |
 |---------------------------------------------|
@@ -195,58 +200,57 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 		//Split the window with 3 rows
 		SNew(SVerticalBox)
 		+SVerticalBox::Slot()
-		.MaxHeight(525.0f)
-		.Padding( 15, 15 )
+		.MaxHeight(625.0f)
+		.Padding( 15.0f, 25.0f, 15.0f, 25.0f )
 		[
 			//Split the first row into 2 columns
 			SNew(SHorizontalBox)
 			+SHorizontalBox::Slot()
-			.VAlign(VAlign_Top)
+			.VAlign(VAlign_Fill)
 			.HAlign(HAlign_Left)
 			.MaxWidth(1320.0f)
+			.Padding(0.0f, 5.0f, 0.0f, 5.0f)
 			[
 				//Sample Seek content
-				//SNew( STextBlock )
-				//.Text( FText::FromString( TEXT( "Sample Seek / Audio Navigator" ) ) )
 				seekContent.ToSharedRef()
 			]
 	
 			+SHorizontalBox::Slot()
-			.VAlign( VAlign_Top )
+			.VAlign( VAlign_Fill )
 			.HAlign( HAlign_Fill )
 			.MaxWidth(1000.0f)
 			[
 				//Details Content
-
-				//SNew( STextBlock )
-				//.Text( FText::FromString( TEXT( "Details" ) ) )
 				detailsContent.ToSharedRef()
 			]
 		]
-
+		+ SVerticalBox::Slot()
+		.MaxHeight( 25.0f )
+		.VAlign(VAlign_Bottom)
+		.Padding( 0.0f, 10.0f, 0.0f, 0.0f )
+		[
+			// Seek bar
+			SNew( STextBlock )
+			.Text( FText::FromString( TEXT( "Seek Bar" ) ) )
+		]
 		+SVerticalBox::Slot()
 		.MaxHeight(35.0f)
-		.Padding( 0, 0 )
+		.Padding( 0.0f, 10.0f, 0.0f, 0.0f )
 		[
 			//Cue Tools
-			/*
-			SNew( STextBlock )
-			.Text( FText::FromString( TEXT( "Tools" ) ) )
-			*/
 			toolbarContent.ToSharedRef()
 		]
 
 		+SVerticalBox::Slot()
-		.MaxHeight(425.0f)
-		.Padding( 15, 15 )
+		.MaxHeight(325.0f)
+		.Padding( 15.0f, 100.0f, 15.0f, 25.0f)
+		.VAlign(VAlign_Fill)
 		[
 			//Action Cue Select
-			//SNew( STextBlock )
-			//.Text( FText::FromString( TEXT( "Sample Select" ) ) )
 			cueSelectContent.ToSharedRef()
 		]
 	];
-
+	
 	return content;
 }
 
@@ -324,8 +328,8 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 	// we do this for each button as there all different heights
 	TSharedRef< SVerticalBox > buttonHeightBox = SNew( SVerticalBox );
 	SVerticalBox::FSlot& vSlot = buttonHeightBox->AddSlot()
-		.MaxHeight( 50.0f + ( 150.0f * button->GetValue() ) )
-		.Padding( 0.0f, ( 150.0f * ( 1.0f - button->GetValue() ) ) / 2.0f )
+		.MaxHeight( 75.0f + ( 150.0f * button->GetValue() ) )
+		.Padding( 0.0f, (75.0f + ( 150.0f * ( 1.0f - button->GetValue() ) ) ) / 2.0f )
 		[
 			button->GetButton()
 		];
@@ -333,8 +337,9 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 	// Create a new horizontal slot in the button hold so all the buttons have the same width and horizontal spacing
 	// and insert the vertical box holding the button
 	SHorizontalBox::FSlot& hSlot = buttonHold->AddSlot()
-		//.MaxWidth( 15.0f )
-		.Padding( 3.0f, 0.0f )
+		//.MaxWidth( 250.0f )
+.VAlign(VAlign_Fill)
+		.Padding( 3.0f, -50.0f )
 		[
 			buttonHeightBox
 		];
