@@ -21,6 +21,7 @@ class SeekButton;
 class CueSelectButton;
 
 class ABaseAudioActor;
+class AudioUtills;
 
 class FActionCue_editorModule : public IModuleInterface
 {
@@ -56,6 +57,7 @@ private:
 	TSharedRef<SDockTab> GetTab(); //Use '.SetContent' to update the display.
 
 	ABaseAudioActor* selectedAudioActor;
+	AudioUtills* audioData;
 
 	/** Update the selected baseAudioActor */
 	void SelectionChanged( UObject* obj );
@@ -69,7 +71,7 @@ private:
 	TSharedRef<SBox> BuildContent_Display();
 	
 	enum ButtonTypes { Seek, Select };
-	enum DetailsContentTypes { ObjName, ClipName, ClipLength, ClipChannels, CueCount };
+	enum DetailsContentTypes { ObjName, ClipName, ClipLength, ClipChannels, ClipSampleRate, ClipTotalSamples, CueCount };
 
 	void Setup_Buttons();
 

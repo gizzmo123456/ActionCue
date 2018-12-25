@@ -3,8 +3,9 @@
 #include "ActionCue_editor.h"
 #include "ActionCue_editorStyle.h"
 #include "ActionCue_editorCommands.h"
-#include "LevelEditor.h"
+#include "AudioUtills.h"
 
+#include "LevelEditor.h"
 #include "Editor.h"
 
 #include "Engine.h"
@@ -147,6 +148,7 @@ void FActionCue_editorModule::FirstRun()
 {
 	if ( hadFirstRun ) return;
 
+	audioData = new AudioUtills();
 
 	Setup_Buttons();
 
@@ -201,6 +203,7 @@ void FActionCue_editorModule::SelectionChanged( UObject* obj )
 	if ( selectedAudio == nullptr ) return;	// No BaseAudioActor selected
 
 	selectedAudioActor = selectedAudio;
+	audioData->SetAudioClip( selectedAudioActor->audioClip );
 
 	FString msg = "Selection Changed: " + selectedAudioActor->GetName();// GetFullName();
 	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *msg );
@@ -440,6 +443,18 @@ void FActionCue_editorModule::Build_DetailsContent()
 	];
 
 	detailsContent->AddSlot()
+	.Padding( 50.0f, 5.0f, 5.0f, 5.0f )
+	[
+		DetailsRow( "Clip Sample Rate", GetDetailsValues( DetailsContentTypes::ClipSampleRate ) )
+	];
+
+	detailsContent->AddSlot()
+	.Padding( 50.0f, 5.0f, 5.0f, 5.0f )
+	[
+		DetailsRow( "Clip Total Samples", GetDetailsValues( DetailsContentTypes::ClipTotalSamples ) )
+	];
+
+	detailsContent->AddSlot()
 	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
 	[
 		DetailsRow("Cue Count", GetDetailsValues(DetailsContentTypes::CueCount))
@@ -518,6 +533,12 @@ FString FActionCue_editorModule::GetDetailsValues( DetailsContentTypes dcType )
 
 		case DetailsContentTypes::ClipChannels:
 			return FString::FromInt( selectedAudioActor->audioClip->NumChannels );
+
+		case DetailsContentTypes::ClipSampleRate:
+			return FString::FromInt( audioData->sampleRate );
+
+		case DetailsContentTypes::ClipTotalSamples:
+			return FString::FromInt( audioData->totalSamples );
 
 		case DetailsContentTypes::CueCount:
 			return "0";	//Todo: implement cue.
