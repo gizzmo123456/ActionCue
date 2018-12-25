@@ -4,19 +4,25 @@
 #include "ActionCue_editorStyle.h"
 #include "ActionCue_editorCommands.h"
 #include "LevelEditor.h"
-#include "Widgets/Docking/SDockTab.h"
 
+#include "Editor.h"
+
+#include "Engine.h"
+#include "Engine/Selection.h"
+
+#include "Widgets/Docking/SDockTab.h"
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Text/STextBlock.h"
 #include "Widgets/Input/SButton.h"
 
-#include "Widgets/SBoxPanel.h"
+#include "Widgets/SBoxPanel.h"			//used ??
 
 #include "Framework/MultiBox/MultiBoxBuilder.h"
 
 #include "SeekButton.h"
 #include "CueSelectButton.h"
 
+#include "BaseAudioActor.h"
 
 static const FName ActionCue_editorTabName("ActionCue_editor");
 //TSharedPtr<SDockTab> FActionCue_editorModule::main__t;
@@ -144,6 +150,8 @@ void FActionCue_editorModule::FirstRun()
 
 	Setup_Buttons();
 
+	// Register delegates
+	USelection::SelectionChangedEvent.AddRaw( this, &FActionCue_editorModule::SelectionChanged );
 	
 
 	hadFirstRun = true;
@@ -181,6 +189,23 @@ TSharedRef<SDockTab> FActionCue_editorModule::GetTab()
 	return activeTabManager.ToSharedRef()->FindExistingLiveTab( ActionCue_editorTabName ).ToSharedRef();
 
 } 
+
+void FActionCue_editorModule::SelectionChanged( UObject* obj )
+{
+	//Check that there is at least one actor selected in the scene
+	if ( GEditor->GetSelectedActorCount() == 0 ) return;
+
+	//Get the last object that was selected that inherits form ABaseAudioActor
+	ABaseAudioActor* selectedAudio = GEditor->GetSelectedActors()->GetBottom<ABaseAudioActor>();
+
+	if ( selectedAudio == nullptr ) return;	// No BaseAudioActor selected
+
+	selectedAudioActor = selectedAudio;
+
+	FString msg = "Selection Changed: " + selectedAudioActor->GetName();// GetFullName();
+	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *msg );
+
+}
 
 void FActionCue_editorModule::RepaintTab()
 {

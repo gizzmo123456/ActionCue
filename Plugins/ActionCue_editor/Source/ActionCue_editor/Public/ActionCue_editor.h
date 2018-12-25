@@ -20,6 +20,8 @@ class BaseButton;
 class SeekButton;
 class CueSelectButton;
 
+class ABaseAudioActor;
+
 class FActionCue_editorModule : public IModuleInterface
 {
 /////// Default standalone editor
@@ -53,6 +55,10 @@ private:
 	/** returns Main Tab Instance. Used to hold all the panels. */
 	TSharedRef<SDockTab> GetTab(); //Use '.SetContent' to update the display.
 
+	ABaseAudioActor* selectedAudioActor;
+
+	/** Update the selected baseAudioActor */
+	void SelectionChanged( UObject* obj );
      
 	/** Builds and repaints the tab content 
 	  * Does not build any panel content (eg. seek content)
@@ -66,7 +72,7 @@ private:
 
 	void Setup_Buttons();
 
-	//Need To Implment
+	/** Get the amount of buttons to display by button type. */
 	int GetButtonsToDisplay( ButtonTypes ButtonTypes );
 	/** Draws all buttons of button type to button hold*/
 	void DrawButtons( TSharedRef< SHorizontalBox > buttonHold, ButtonTypes buttonType );	//This is so we can cast to BaseButton.
