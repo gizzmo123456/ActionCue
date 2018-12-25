@@ -27,8 +27,8 @@ public:
 	void SetAudioClip(USoundWave* clip);
 
 	int totalSamples = 0;
-	int channels = 1;
-	int sampleRate = 44100;
+	int channels = 0;
+	int sampleRate = 0;
 
 private:
 
