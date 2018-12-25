@@ -69,6 +69,7 @@ private:
 	TSharedRef<SBox> BuildContent_Display();
 	
 	enum ButtonTypes { Seek, Select };
+	enum DetailsContentTypes { ObjName, ClipName, ClipLength, ClipChannels, CueCount };
 
 	void Setup_Buttons();
 
@@ -98,6 +99,8 @@ private:
 	void Build_DetailsContent();
 
 	TSharedRef< SHorizontalBox > DetailsRow( FString lable, FString value );
+
+	FString GetDetailsValues( DetailsContentTypes dcType );
 
 	//Main toolbar content
 	TSharedPtr< SHorizontalBox > toolbarContent;

@@ -475,6 +475,38 @@ void FActionCue_editorModule::Build_ToolbarContent()
 
 }
 
+FString FActionCue_editorModule::GetDetailsValues( DetailsContentTypes dcType )
+{
+
+	// return our default values for none selected or no audio clip
+	if ( selectedAudioActor == nullptr )
+		return "None Selected";
+	else if ( selectedAudioActor->audioClip == nullptr )
+		return "None";
+
+
+	switch ( dcType )
+	{
+		case DetailsContentTypes::ObjName:
+			return selectedAudioActor->GetName();
+
+		case DetailsContentTypes::ClipName:
+			return  selectedAudioActor->audioClip->GetName();
+
+		case DetailsContentTypes::ClipLength:
+			return  FString::SanitizeFloat( selectedAudioActor->audioClip->GetDuration(), 0);
+
+		case DetailsContentTypes::ClipChannels:
+			return FString::FromInt( selectedAudioActor->audioClip->NumChannels );
+
+		case DetailsContentTypes::CueCount:
+			return "0";	//Todo: implement cue.
+
+	}
+
+	return "Error: Details content not found.";
+}
+
 FReply FActionCue_editorModule::TEMP_ButtonAction()
 {
 	//Build all content
