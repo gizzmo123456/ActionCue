@@ -68,11 +68,14 @@ void AudioUtills::SetAudioClip( USoundWave* clip )
 {
 
 	audioClip = clip;
-	channels = clip->NumChannels;
 
 	// Check that there is raw sound data to read from.
-	if ( audioClip->RawData.GetBulkDataSize() <= 0 )
+	if ( audioClip == nullptr || audioClip->RawData.GetBulkDataSize() <= 0 )
 	{
+		channels = 0;
+		sampleRate = 0;
+		totalSamples = 0;
+
 		UE_LOG( LogTemp, Error, TEXT( "Error: No sample data to read." ) );
 		return;
 	}
@@ -86,6 +89,7 @@ void AudioUtills::SetAudioClip( USoundWave* clip )
 	//Check that the wave header can be read.
 	if ( waveInfo.ReadWaveHeader( rawWaveData, rawDataSize, 0 ) )
 	{
+		channels = clip->NumChannels;
 		sampleRate = *waveInfo.pSamplesPerSec;
 		totalSamples = sampleRate * audioClip->GetDuration();
 	}
