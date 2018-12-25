@@ -90,4 +90,6 @@ void AudioUtills::SetAudioClip( USoundWave* clip )
 		totalSamples = sampleRate * audioClip->GetDuration();
 	}
 
+	audioClip->RawData.Unlock();
+
 }
