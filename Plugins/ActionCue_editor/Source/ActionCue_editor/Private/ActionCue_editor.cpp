@@ -404,27 +404,37 @@ void FActionCue_editorModule::Build_DetailsContent()
 {
 	// Create a new cue select content hold and generate its contents.
 	detailsContent = SNew( SVerticalBox )
-	+SVerticalBox::Slot()
-	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
+	+ SVerticalBox::Slot()
+	.Padding( 50.0f, 5.0f, 5.0f, 5.0f )
 	[
-		DetailsRow("Object Name", GetDetailsValues( DetailsContentTypes::ObjName ) )
-	]
-	+SVerticalBox::Slot()
+		DetailsRow( "Object Name", GetDetailsValues( DetailsContentTypes::ObjName ) )
+	];
+
+	// don't display any audio data if theres no BaseAudioActor selected
+	if ( selectedAudioActor == nullptr) return;
+
+	detailsContent->AddSlot()
 	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
 	[
 		DetailsRow("Clip Name", GetDetailsValues( DetailsContentTypes::ClipName ) )
-	]
-	+SVerticalBox::Slot()
+	];
+	
+	// Only display audio data if there is an audio clip
+	if ( selectedAudioActor->audioClip == nullptr ) return;
+
+	detailsContent->AddSlot()
 	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
 	[
 		DetailsRow("Clip Length", GetDetailsValues( DetailsContentTypes::ClipLength ) )
-	]
-	+SVerticalBox::Slot()
+	];
+
+	detailsContent->AddSlot()
 	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
 	[
 		DetailsRow("Clip Channels", GetDetailsValues( DetailsContentTypes::ClipChannels ) )
-	]
-	+SVerticalBox::Slot()
+	];
+
+	detailsContent->AddSlot()
 	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
 	[
 		DetailsRow("Cue Count", GetDetailsValues(DetailsContentTypes::CueCount))
