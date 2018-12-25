@@ -407,22 +407,27 @@ void FActionCue_editorModule::Build_DetailsContent()
 	+SVerticalBox::Slot()
 	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
 	[
-		DetailsRow("Object Name", "Im the object name :)")
+		DetailsRow("Object Name", GetDetailsValues( DetailsContentTypes::ObjName ) )
 	]
 	+SVerticalBox::Slot()
 	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
 	[
-		DetailsRow("Clip Name", "this is the clip name")
+		DetailsRow("Clip Name", GetDetailsValues( DetailsContentTypes::ClipName ) )
 	]
 	+SVerticalBox::Slot()
 	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
 	[
-		DetailsRow("Clip Length", "0.0 seconds")
+		DetailsRow("Clip Length", GetDetailsValues( DetailsContentTypes::ClipLength ) )
 	]
 	+SVerticalBox::Slot()
 	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
 	[
-		DetailsRow("Cue Count", "0")
+		DetailsRow("Clip Channels", GetDetailsValues( DetailsContentTypes::ClipChannels ) )
+	]
+	+SVerticalBox::Slot()
+	.Padding(50.0f, 5.0f, 5.0f, 5.0f)
+	[
+		DetailsRow("Cue Count", GetDetailsValues(DetailsContentTypes::CueCount))
 	];
 
 }
@@ -481,7 +486,7 @@ FString FActionCue_editorModule::GetDetailsValues( DetailsContentTypes dcType )
 	// return our default values for none selected or no audio clip
 	if ( selectedAudioActor == nullptr )
 		return "None Selected";
-	else if ( selectedAudioActor->audioClip == nullptr )
+	else if ( selectedAudioActor->audioClip == nullptr && dcType != DetailsContentTypes::ObjName )
 		return "None";
 
 
@@ -494,7 +499,7 @@ FString FActionCue_editorModule::GetDetailsValues( DetailsContentTypes dcType )
 			return  selectedAudioActor->audioClip->GetName();
 
 		case DetailsContentTypes::ClipLength:
-			return  FString::SanitizeFloat( selectedAudioActor->audioClip->GetDuration(), 0);
+			return  FString::SanitizeFloat( selectedAudioActor->audioClip->GetDuration(), 0) + " seconds";
 
 		case DetailsContentTypes::ClipChannels:
 			return FString::FromInt( selectedAudioActor->audioClip->NumChannels );
