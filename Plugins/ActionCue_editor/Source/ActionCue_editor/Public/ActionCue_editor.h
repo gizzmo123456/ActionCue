@@ -46,7 +46,8 @@ private:
 //protected:
 private:
 
-	
+	bool hadFirstRun = false;
+	void FirstRun();
 
 	TSharedPtr<FTabManager> activeTabManager;
 	/** returns Main Tab Instance. Used to hold all the panels. */

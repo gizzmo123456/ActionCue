@@ -75,7 +75,8 @@ void FActionCue_editorModule::ShutdownModule()
 
 TSharedRef<SDockTab> FActionCue_editorModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
-	Setup_Buttons();
+
+	FirstRun();
 
 	///////////// TEMP place holds
 	seekContent = SNew( SHorizontalBox )
@@ -133,6 +134,19 @@ TSharedRef<SDockTab> FActionCue_editorModule::OnSpawnPluginTab(const FSpawnTabAr
 			// Put your tab content here!
 			BuildContent_Display()
 		];
+
+}
+
+void FActionCue_editorModule::FirstRun()
+{
+	if ( hadFirstRun ) return;
+
+
+	Setup_Buttons();
+
+	
+
+	hadFirstRun = true;
 
 }
 
