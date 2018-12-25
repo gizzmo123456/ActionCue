@@ -205,6 +205,11 @@ void FActionCue_editorModule::SelectionChanged( UObject* obj )
 	FString msg = "Selection Changed: " + selectedAudioActor->GetName();// GetFullName();
 	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *msg );
 
+	// Todo. this all needs its own function
+	//Rebuild details content and repaint
+	Build_DetailsContent();
+	RepaintTab();
+
 }
 
 void FActionCue_editorModule::RepaintTab()
