@@ -76,6 +76,9 @@ private:
 	// max value of an audio sample. (i think its much higher) This is used to work out the button value.
 	int maxSampleValue = 10000;
 
+	float minButtonSize = 25.0f;
+	float maxButtonSize = 225.0f;
+
 	void Setup_Buttons();
 	/** Get the amount of buttons to display by button type. */
 	int GetButtonsToDisplay( ButtonTypes ButtonTypes );

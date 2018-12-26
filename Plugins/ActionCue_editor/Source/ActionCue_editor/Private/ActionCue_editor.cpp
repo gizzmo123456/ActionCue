@@ -420,10 +420,13 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 
 	// Create a vertical box so the button is the correct height
 	// we do this for each button as there all different heights
+
+	float sizeDif = maxButtonSize - minButtonSize;
+
 	TSharedRef< SVerticalBox > buttonHeightBox = SNew( SVerticalBox );
 	SVerticalBox::FSlot& vSlot = buttonHeightBox->AddSlot()
-		.MaxHeight( 75.0f + ( 150.0f * button->GetValue() ) )
-		.Padding( 0.0f, (75.0f + ( 150.0f * ( 1.0f - button->GetValue() ) ) ) / 2.0f )
+		.MaxHeight( minButtonSize + ( sizeDif * button->GetValue() ) )
+		.Padding( 0.0f, (minButtonSize + ( sizeDif * ( 1.0f - button->GetValue() ) ) ) / 2.0f )
 		[
 			button->GetButton()
 		];
@@ -433,7 +436,7 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 	SHorizontalBox::FSlot& hSlot = buttonHold->AddSlot()
 		//.MaxWidth( 250.0f )
 		.VAlign(VAlign_Fill)
-		.Padding( 3.0f, -150.0f )
+		.Padding( 3.0f, -sizeDif )
 		[
 			buttonHeightBox
 		];
@@ -596,6 +599,8 @@ FString FActionCue_editorModule::GetDetailsValues( DetailsContentTypes dcType )
 
 FReply FActionCue_editorModule::TEMP_ButtonAction()
 {
+	//Update data
+	Update_ButtonsData( ButtonTypes::Seek );
 	//Build all content
 	Build_SeekContent();
 	Build_CueSelectContent();
