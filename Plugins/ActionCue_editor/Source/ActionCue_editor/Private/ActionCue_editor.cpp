@@ -238,6 +238,8 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 |---------------------------------------------|
 */
 
+	float audioTopPadding = (maxButtonSize - minButtonSize) + 25.0f;
+
 	//Create the main content hold
 	TSharedRef<SBox> content = SNew( SBox )
 	.VAlign( VAlign_Fill )
@@ -255,7 +257,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 		]
 		+SVerticalBox::Slot()
 		.MaxHeight(625.0f)
-		.Padding( 15.0f, 125.0f, 15.0f, -25.0f )
+		.Padding( 15.0f, audioTopPadding, 15.0f, 10.0f )
 		[
 			//Split the first row into 2 columns
 			SNew(SHorizontalBox)
@@ -272,7 +274,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 			+SHorizontalBox::Slot()
 			.VAlign( VAlign_Top )
 			.HAlign( HAlign_Fill )
-			.Padding(0.0f, -100.0f, 0.0f, 0.0f)
+			.Padding(0.0f, -(audioTopPadding+25.0f), 0.0f, 0.0f)
 			.MaxWidth(1000.0f)
 			[
 				//Details Content
@@ -298,7 +300,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 
 		+SVerticalBox::Slot()
 		.MaxHeight(325.0f)
-		.Padding( 15.0f, 125.0f, 15.0f, -75.0f)
+		.Padding( 15.0f, audioTopPadding, 15.0f, 25.0f)
 		.VAlign(VAlign_Fill)
 		[
 			//Action Cue Select
