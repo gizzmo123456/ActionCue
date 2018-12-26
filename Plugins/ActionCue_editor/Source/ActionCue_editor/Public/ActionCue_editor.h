@@ -73,10 +73,18 @@ private:
 	enum ButtonTypes { Seek, Select };
 	enum DetailsContentTypes { ObjName, ClipName, ClipLength, ClipChannels, ClipSampleRate, ClipTotalSamples, CueCount };
 
-	void Setup_Buttons();
+	// max value of an audio sample. (i think its much higher) This is used to work out the button value.
+	int maxSampleValue = 10000;
 
+	void Setup_Buttons();
 	/** Get the amount of buttons to display by button type. */
 	int GetButtonsToDisplay( ButtonTypes ButtonTypes );
+
+	/** Update all buttons in group */
+	void Update_ButtonsData( ButtonTypes buttonType );
+	/** Update a single BaseButton */
+	void Update_buttonData(BaseButton* button, int currentButtonId, int maxButtonId);
+
 	/** Draws all buttons of button type to button hold*/
 	void DrawButtons( TSharedRef< SHorizontalBox > buttonHold, ButtonTypes buttonType );	//This is so we can cast to BaseButton.
 	/** Draws a single BaseButton to button hold*/

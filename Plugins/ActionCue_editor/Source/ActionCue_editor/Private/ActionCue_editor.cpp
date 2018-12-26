@@ -246,6 +246,13 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 	[
 		//Split the window with 3 rows
 		SNew(SVerticalBox)
+		+ SVerticalBox::Slot()
+		.MaxHeight( 75.0f )
+		.Padding( 15.0f, 25.0f, 15.0f, -25.0f )
+		[
+			SNew( STextBlock )
+			.Text( FText::FromString( TEXT( "Action Cue BETA v0.3 By Ashley Sands" ) ) )
+		]
 		+SVerticalBox::Slot()
 		.MaxHeight(625.0f)
 		.Padding( 15.0f, 125.0f, 15.0f, -25.0f )
@@ -341,6 +348,45 @@ int FActionCue_editorModule::GetButtonsToDisplay( ButtonTypes buttonTypes )
 	}
 
 	return 0;
+}
+
+void FActionCue_editorModule::Update_ButtonsData( ButtonTypes buttonType )
+{
+
+	int buttonCount = GetButtonsToDisplay( buttonType );
+	BaseButton* button;
+
+	//Extract the button from the array of button type
+	for ( int i = 0; i < buttonCount; i++ )
+	{
+		switch ( buttonType )
+		{
+			case ButtonTypes::Seek:
+				button = seekButtons[i];
+				Update_buttonData( button, i, buttonCount );
+				break;
+			case ButtonTypes::Select:
+				button = cueSelectButtons[i];
+				Update_buttonData( button, i, buttonCount );
+				break;
+		}
+	}
+
+}
+
+void FActionCue_editorModule::Update_buttonData( BaseButton* button, int currentButtonId, int maxButtonId )
+{
+	//find the sample range
+	int samplesRange = FMath::CeilToInt(audioData->totalSamples / maxButtonId);
+	int startSample = samplesRange * currentButtonId;
+	int endSample = startSample + samplesRange;
+
+	if ( endSample > audioData->totalSamples )
+		endSample = audioData->totalSamples;
+
+	button->SetSampleRange( startSample, endSample );
+	button->SetValue( audioData->GetAmplitudeData( startSample, endSample ) / maxSampleValue );
+
 }
 
 void FActionCue_editorModule::DrawButtons( TSharedRef<SHorizontalBox> buttonHold, ButtonTypes buttonType )
