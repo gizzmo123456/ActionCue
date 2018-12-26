@@ -5,6 +5,9 @@
 
 AudioUtills::AudioUtills()
 {
+
+	audioClip = nullptr;
+
 }
 
 AudioUtills::~AudioUtills()
@@ -15,7 +18,7 @@ float AudioUtills::GetAmplitudeData(int startSample, int endSample )
 {
 
 	// Check that there is raw sound data to read from.
-	if ( audioClip->RawData.GetBulkDataSize() <= 0 )
+	if ( !audioClip || audioClip->RawData.GetBulkDataSize() <= 0 )
 	{
 		UE_LOG( LogTemp, Error, TEXT( "Error: No sample data to read." ) );
 		return 0.0f;
