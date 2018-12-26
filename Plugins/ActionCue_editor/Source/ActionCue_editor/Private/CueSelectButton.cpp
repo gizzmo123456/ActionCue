@@ -4,7 +4,7 @@
 
 CueSelectButton::CueSelectButton()
 {
-	SetValue( FMath::RandRange( 0.0f, 1.0f ) );
+	SetValue( 0 );// FMath::RandRange( 0.0f, 1.0f ) );
 }
 
 CueSelectButton::~CueSelectButton()
