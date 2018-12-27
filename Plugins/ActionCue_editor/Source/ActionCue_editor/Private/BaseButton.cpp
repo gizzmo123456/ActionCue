@@ -40,6 +40,19 @@ void BaseButton::Set( bool b )
 	buttonIsSet = b;
 }
 
+int BaseButton::GetSample( SampleRangeType rangeType )
+{
+	switch ( rangeType )
+	{
+		case SampleRangeType::Start:
+			return startSample;
+		case SampleRangeType::End:
+			return endSample;
+		default:
+			return 0;
+	}
+}
+
 bool BaseButton::IsSampleInRange( int sampId )
 {
 	return sampId >= startSample && sampId <= endSample;

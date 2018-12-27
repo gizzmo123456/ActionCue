@@ -31,7 +31,10 @@ public:
 	bool IsSet() const;
 	/** set the selected value */
 	void Set( bool b );
+	
+	enum SampleRangeType {Start, End};
 
+	int GetSample( SampleRangeType rangeType );
 	/** Checks if the sample id is within the range assigned to this button */
 	bool IsSampleInRange( int sampleId );
 	/** Assign the sample range for this button */
