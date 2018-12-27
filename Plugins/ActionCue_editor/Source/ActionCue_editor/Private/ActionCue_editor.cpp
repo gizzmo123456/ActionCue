@@ -561,7 +561,14 @@ void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 
 void FActionCue_editorModule::ButtonPressed_Select( int buttonId )
 {
-	FString s = "Select button pressed: " + FString::FromInt( buttonId );
+
+	int sample = FMath::FloorToInt(
+		(float)( cueSelectButtons[buttonId]->GetSample( BaseButton::SampleRangeType::Start ) + cueSelectButtons[buttonId]->GetSample( BaseButton::SampleRangeType::End ) ) / 2.0f
+	);
+
+	float time = sample / (float)audioData->sampleRate;
+
+	FString s = "Select button pressed: " + FString::FromInt( buttonId ) +" Sample: "+FString::FromInt(sample)+" Time: "+FString::SanitizeFloat(time);
 	UE_LOG( LogTemp, Log, TEXT( "%s" ), *s );
 
 }
