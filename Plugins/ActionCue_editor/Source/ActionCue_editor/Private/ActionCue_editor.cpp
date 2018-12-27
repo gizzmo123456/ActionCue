@@ -715,6 +715,7 @@ FString FActionCue_editorModule::GetDetailsValues( DetailsContentTypes dcType )
 FReply FActionCue_editorModule::RefreshContent_select()
 {
 	Update_ButtonsData( ButtonTypes::Select );
+	Build_CueSelectContent();
 	RepaintTab();
 
 	return FReply::Handled();
