@@ -2,9 +2,9 @@
 
 #include "CueSelectButton.h"
 
-CueSelectButton::CueSelectButton()
+CueSelectButton::CueSelectButton(int bid):BaseButton(bid)
 {
-	SetValue( 0 );// FMath::RandRange( 0.0f, 1.0f ) );
+	SetValue( 0 );
 }
 
 CueSelectButton::~CueSelectButton()

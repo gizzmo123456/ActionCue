@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Widgets/Input/SButton.h"
 
+typedef TMulticastDelegate< void, int > FButtonPressed;
+DECLARE_MULTICAST_DELEGATE_OneParam( FButtonPressed, int );
 
 /**
  * Base Class for button functionality required for ActionCue
@@ -12,7 +14,11 @@
 class ACTIONCUE_EDITOR_API BaseButton
 {
 public:
-	BaseButton();
+	/*
+	* Initialize BaseButton with a button ID
+	* @Param bid:	Button Id.
+	*/
+	BaseButton( int bid );
 	virtual ~BaseButton();
 	/** Get the button being displayed */
 	TSharedRef<SButton> GetButton();
@@ -31,6 +37,8 @@ public:
 	/** Assign the sample range for this button */
 	void SetSampleRange( int startSanp, int endSamp ); 
 
+	// button pressed callback to send the button ID back to ActionCue_editor
+	FButtonPressed OnButtonPressed;
 
 protected:
 	TSharedRef<SButton> button = SNew( SButton );
@@ -39,6 +47,9 @@ protected:
 	virtual FReply ButtonAction();						//Button Action callback.
 
 private:
+
+	int buttonId = 0;
+
 	float value = 0.0f;			//value range: 0.0f - 1.0f
 	bool buttonIsSet = false;
 

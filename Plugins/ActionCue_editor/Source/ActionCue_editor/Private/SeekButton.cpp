@@ -2,16 +2,9 @@
 
 #include "SeekButton.h"
 
-SeekButton::SeekButton():BaseButton()
+SeekButton::SeekButton(int bid):BaseButton(bid)
 {
-	SetValue( 0 );// FMath::RandRange( 0.0f, 1.0f ));
-	
-	/*
-	TSharedRef<SButton> helloo_button = SNew( SButton )
-		.OnClicked_Raw( this, &SeekButton::ButtonAction )
-		.ButtonColorAndOpacity_Raw( this, &SeekButton::GetButtonColour );
-	*/
-		
+	SetValue( 0 );		
 }
 
 SeekButton::~SeekButton()

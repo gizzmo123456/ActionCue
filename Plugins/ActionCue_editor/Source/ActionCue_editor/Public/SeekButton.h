@@ -10,8 +10,11 @@
  */
 class ACTIONCUE_EDITOR_API SeekButton : public BaseButton
 {
+
+	
+
 public:
-	SeekButton();
+	SeekButton(int bid);
 	virtual ~SeekButton();
 
 protected:

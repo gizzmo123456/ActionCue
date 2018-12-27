@@ -49,6 +49,7 @@ private:
 //protected:
 private:
 
+
 	bool hadFirstRun = false;
 	void FirstRun();
 
@@ -94,6 +95,9 @@ private:
 	/** Draws a single BaseButton to button hold*/
 	void DrawButton( TSharedRef< SHorizontalBox > buttonHold, BaseButton* buttonToDraw ); 
 
+	void ButtonPressed_Seek( int buttonId );
+	void ButtonPressed_Select( int buttonId );
+		
 	//Seek Content
 	TSharedPtr< SHorizontalBox > seekContent;
 	void Build_SeekContent();

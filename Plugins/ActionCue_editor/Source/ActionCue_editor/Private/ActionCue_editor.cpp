@@ -318,7 +318,10 @@ void FActionCue_editorModule::Setup_Buttons()
 	{
 		seekButtons.Empty();
 		for ( int i = 0; i < seekButtonsToDisplay; i++ )
-			seekButtons.Add( new SeekButton() );
+		{
+			seekButtons.Add( new SeekButton( i ) );
+			seekButtons[i]->OnButtonPressed.AddRaw( this, &FActionCue_editorModule::ButtonPressed_Seek);
+		}
 		//seekButtons.AddDefaulted( seekButtonsToDisplay );
 
 		FString mes = "Seek Button Count: " + FString::FromInt( seekButtons.Num() );
@@ -330,7 +333,10 @@ void FActionCue_editorModule::Setup_Buttons()
 	{
 		cueSelectButtons.Empty();
 		for ( int i = 0; i < cueSelectButtonsToDisplay; i++ )
-			cueSelectButtons.Add( new CueSelectButton() );
+		{
+			cueSelectButtons.Add( new CueSelectButton( i ) );
+			cueSelectButtons[i]->OnButtonPressed.AddRaw( this, &FActionCue_editorModule::ButtonPressed_Select );
+		}
 
 		FString mes = "Cue Select Button Count: " + FString::FromInt( cueSelectButtons.Num() );
 		UE_LOG( LogTemp, Warning, TEXT( "%s" ), *mes );
@@ -442,6 +448,20 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 		[
 			buttonHeightBox
 		];
+
+}
+
+void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
+{
+	FString s = "Seek button pressed: " + FString::FromInt( buttonId );
+	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *s );
+
+}
+
+void FActionCue_editorModule::ButtonPressed_Select( int buttonId )
+{
+	FString s = "Select button pressed: " + FString::FromInt( buttonId );
+	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *s );
 
 }
 
@@ -603,6 +623,8 @@ FReply FActionCue_editorModule::TEMP_ButtonAction()
 {
 	//Update data
 	Update_ButtonsData( ButtonTypes::Seek );
+	Update_ButtonsData( ButtonTypes::Select );
+
 	//Build all content
 	Build_SeekContent();
 	Build_CueSelectContent();

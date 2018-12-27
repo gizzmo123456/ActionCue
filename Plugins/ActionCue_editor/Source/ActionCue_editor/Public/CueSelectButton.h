@@ -11,7 +11,7 @@
 class ACTIONCUE_EDITOR_API CueSelectButton : public BaseButton
 {
 public:
-	CueSelectButton();
+	CueSelectButton(int bid); 
 	virtual ~CueSelectButton();
 
 protected:

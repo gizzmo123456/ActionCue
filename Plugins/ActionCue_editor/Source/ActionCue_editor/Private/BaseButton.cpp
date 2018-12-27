@@ -2,14 +2,15 @@
 
 #include "BaseButton.h"
 
-BaseButton::BaseButton()
+BaseButton::BaseButton( int bid )
 {
-	value = 0.5f;
-	
+	buttonId = bid;
+
+	value = 0.0f;
+
 	button = SNew( SButton )
-	.OnClicked_Raw( this, &BaseButton::ButtonAction )
-	.ButtonColorAndOpacity_Raw( this, &BaseButton::GetButtonColour );
-	
+		.OnClicked_Raw( this, &BaseButton::ButtonAction )
+		.ButtonColorAndOpacity_Raw( this, &BaseButton::GetButtonColour );
 }
 
 BaseButton::~BaseButton(){}
@@ -53,6 +54,9 @@ void BaseButton::SetSampleRange( int startSanp, int endSamp )
 FReply BaseButton::ButtonAction()
 {
 	buttonIsSet = !buttonIsSet;
+
+	if( OnButtonPressed.IsBound() )
+		OnButtonPressed.Broadcast( buttonId );
 
 	return FReply::Handled();
 }
