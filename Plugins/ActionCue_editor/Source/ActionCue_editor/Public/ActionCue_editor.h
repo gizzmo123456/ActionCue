@@ -78,7 +78,7 @@ private:
 	int maxSampleValue = 25000;
 
 	//Min and max size of audio buttons
-	float minButtonSize = 25.0f;	//guaranteed min
+	float minButtonSize = 12.5f;	//guaranteed min
 	float maxButtonSize = 225.0f;	//Not guaranteed, this is the max button size when the button value is 1. so its more when the button value is > 1
 
 	void Setup_Buttons();
