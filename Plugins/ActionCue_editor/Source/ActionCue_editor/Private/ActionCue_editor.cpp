@@ -527,11 +527,19 @@ void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 	//Find if its the start or end button that has been changed.
 	if ( buttonId == currentSelectedRange_start )
 	{
-		currentSelectedRange_start = -2;
+		currentSelectedRange_start = -1;
 	}
 	else if ( buttonId == currentSelectedRange_end )
 	{
-		currentSelectedRange_end = -1;
+		if ( currentSelectedRange_start >= 0 )
+		{
+			currentSelectedRange_end = currentSelectedRange_start;
+			currentSelectedRange_start = -1;
+		}
+		else
+		{
+			currentSelectedRange_end = -1;
+		}
 	}
 	else if ( buttonId < currentSelectedRange_end )
 	{
