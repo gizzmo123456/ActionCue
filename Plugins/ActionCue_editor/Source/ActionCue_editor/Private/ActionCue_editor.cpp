@@ -476,14 +476,14 @@ void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 	}
 
 	FString s = "Seek button pressed: " + FString::FromInt( buttonId );
-	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *s );
+	UE_LOG( LogTemp, Log, TEXT( "%s" ), *s );
 
 }
 
 void FActionCue_editorModule::ButtonPressed_Select( int buttonId )
 {
 	FString s = "Select button pressed: " + FString::FromInt( buttonId );
-	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *s );
+	UE_LOG( LogTemp, Log, TEXT( "%s" ), *s );
 
 }
 
