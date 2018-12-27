@@ -202,6 +202,12 @@ void FActionCue_editorModule::SelectionChanged( UObject* obj )
 
 	if ( selectedAudio == nullptr ) return;	// No BaseAudioActor selected
 
+	if ( selectedAudio != selectedAudioActor )
+	{
+		hasSeekAmpData = false;
+		hasSelectAmpData = false;
+	}
+
 	selectedAudioActor = selectedAudio;
 	audioData->SetAudioClip( selectedAudioActor->audioClip );
 
@@ -364,33 +370,98 @@ void FActionCue_editorModule::Update_ButtonsData( ButtonTypes buttonType )
 	int buttonCount = GetButtonsToDisplay( buttonType );
 	BaseButton* button;
 
+	//int endSample;	//I get an error if this is init in the case??? says it get skiped but i intend for it to only be used in case seek. hmmmm silly
+
 	//Extract the button from the array of button type
 	for ( int i = 0; i < buttonCount; i++ )
 	{
 		switch ( buttonType )
 		{
 			case ButtonTypes::Seek:
-				button = seekButtons[i];
-				Update_buttonData( button, i, buttonCount );
+
+				{
+					int endSample = seekButtons[seekButtons.Num() - 1]->GetSample( BaseButton::SampleRangeType::End );
+
+					if ( !hasSeekAmpData )
+						endSample = audioData->totalSamples - 1;
+
+					button = seekButtons[i];
+					Update_buttonData( button, i, buttonCount, 0, endSample );
+
+				}
 				break;
+
 			case ButtonTypes::Select:
-				button = cueSelectButtons[i];
-				Update_buttonData( button, i, buttonCount );
+
+				{
+					button = cueSelectButtons[i];
+					//check the current buttons are in range if not set them to display all.
+					int selectedStart = currentSelectedRange_start;
+					int selectedEnd = currentSelectedRange_end;
+
+					if ( selectedStart < 0 && selectedEnd >= 0 )
+						selectedStart = selectedEnd;
+					else if ( selectedStart < 0 )
+						selectedStart = 0;
+
+					if ( selectedStart >= 0 && selectedEnd < 0 )
+						selectedEnd = selectedStart;
+					else if ( selectedEnd < 0 )
+						selectedEnd = seekButtons.Num() - 1;
+
+					//transform the button id's into sample range
+					int selectedStartRange = seekButtons[selectedStart]->GetSample( BaseButton::SampleRangeType::Start );
+					int selectedEndRange = seekButtons[selectedEnd]->GetSample( BaseButton::SampleRangeType::End );
+
+					if ( !hasSelectAmpData )
+					{
+						selectedStartRange = 0;
+						selectedEndRange = audioData->totalSamples - 1;
+					}
+
+					Update_buttonData( button, i, buttonCount, selectedStartRange, selectedEndRange );
+				}
+
 				break;
+
 		}
 	}
 
+	//we must set hasSeekAmpData at the end so they all get set
+	if ( buttonType == ButtonTypes::Seek )
+		hasSeekAmpData = true;
+	else if ( buttonType == ButtonTypes::Select )
+		hasSelectAmpData = true;
+
 }
 
-void FActionCue_editorModule::Update_buttonData( BaseButton* button, int currentButtonId, int maxButtonId )
+void FActionCue_editorModule::Update_buttonData( BaseButton* button, int currentButtonId, int maxButtonId, int startSampleRange, int endSampleRange )
 {
+	//make shore that the start and end samples are in range.
+	if ( startSampleRange >= audioData->totalSamples )
+		startSampleRange = audioData->totalSamples - 1;
+
+	if ( endSampleRange < startSampleRange )
+		endSampleRange = startSampleRange;
+
+	if ( endSampleRange >= audioData->totalSamples )
+		endSampleRange = audioData->totalSamples - 1;
+
 	//find the sample range
-	int samplesRange = FMath::CeilToInt(audioData->totalSamples / maxButtonId);
-	int startSample = samplesRange * currentButtonId;
+	int totalSamplesInRange = endSampleRange - startSampleRange;
+	int samplesRange = FMath::CeilToInt( totalSamplesInRange / maxButtonId );
+	//startSampleRange = 0;
+	int startSample = startSampleRange + (samplesRange * currentButtonId);
 	int endSample = startSample + samplesRange;
 
-	if ( endSample > audioData->totalSamples )
-		endSample = audioData->totalSamples;
+	// Make shore the start and end samples do not go out of range of the audio samples
+	if ( startSample >= audioData->totalSamples )
+		startSample = endSample = audioData->totalSamples - 1;		//End sample is alway more than start sample
+	else if ( endSample >= audioData->totalSamples )
+		endSample = audioData->totalSamples - 1;
+	
+	FString s = "StartSamp: " + FString::FromInt( startSampleRange ) + " EndSamp: " + FString::FromInt( endSampleRange ) + " TotalSamp: "+FString::FromInt(audioData->totalSamples);
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *s)
 
 	button->SetSampleRange( startSample, endSample );
 	button->SetValue( audioData->GetAmplitudeData( startSample, endSample ) / maxSampleValue );
@@ -594,7 +665,7 @@ void FActionCue_editorModule::Build_ToolbarContent()
 	.Padding( 5.0f, 5.0f )
 	[
 		SNew( SButton )
-		.OnClicked_Raw( this, &FActionCue_editorModule::TEMP_ButtonAction )
+		.OnClicked_Raw( this, &FActionCue_editorModule::RefreshContent_select )
 		[
 			SNew( STextBlock )
 			.Text( FText::FromString( "Refresh" ) )
@@ -639,6 +710,14 @@ FString FActionCue_editorModule::GetDetailsValues( DetailsContentTypes dcType )
 	}
 
 	return "Error: Details content not found.";
+}
+
+FReply FActionCue_editorModule::RefreshContent_select()
+{
+	Update_ButtonsData( ButtonTypes::Select );
+	RepaintTab();
+
+	return FReply::Handled();
 }
 
 FReply FActionCue_editorModule::TEMP_ButtonAction()

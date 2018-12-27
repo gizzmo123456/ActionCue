@@ -88,7 +88,7 @@ private:
 	/** Update all buttons in group */
 	void Update_ButtonsData( ButtonTypes buttonType );
 	/** Update a single BaseButton */
-	void Update_buttonData(BaseButton* button, int currentButtonId, int maxButtonId);
+	void Update_buttonData(BaseButton* button, int currentButtonId, int maxButtonId, int startSampleRange, int endSampleRange);
 
 	/** Draws all buttons of button type to button hold*/
 	void DrawButtons( TSharedRef< SHorizontalBox > buttonHold, ButtonTypes buttonType );	//This is so we can cast to BaseButton.
@@ -105,8 +105,12 @@ private:
 	int seekButtonsToDisplay = 50;
 	TArray< SeekButton* > seekButtons;
 
-	//define the view range using button ids. < 0 is no value. start MUST be less than end.
-	int currentSelectedRange_start = -2;
+	FReply RefreshContent_select();
+
+	bool hasSeekAmpData = false;
+
+	//define the view range using button ids. < 0 is no value.
+	int currentSelectedRange_start = -1;
 	int currentSelectedRange_end = -1;
 
 	//Cue Select Content
@@ -115,6 +119,8 @@ private:
 
 	int cueSelectButtonsToDisplay = 100;
 	TArray< CueSelectButton* > cueSelectButtons;
+
+	bool hasSelectAmpData = false;
 
 	//Details Content
 	TSharedPtr< SVerticalBox > detailsContent;   
@@ -127,7 +133,6 @@ private:
 	//Main toolbar content
 	TSharedPtr< SHorizontalBox > toolbarContent;
 	void Build_ToolbarContent();
-
 
 
 	///////////Temp!!
