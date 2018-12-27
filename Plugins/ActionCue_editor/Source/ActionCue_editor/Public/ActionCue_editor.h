@@ -85,16 +85,17 @@ private:
 	/** Get the amount of buttons to display by button type. */
 	int GetButtonsToDisplay( ButtonTypes ButtonTypes );
 
-	/** Update all buttons in group */
+	/** Update all buttons of type */
 	void Update_ButtonsData( ButtonTypes buttonType );
 	/** Update a single BaseButton */
 	void Update_buttonData(BaseButton* button, int currentButtonId, int maxButtonId, int startSampleRange, int endSampleRange);
 
-	/** Draws all buttons of button type to button hold*/
+	/** Draws all buttons of type to button hold */
 	void DrawButtons( TSharedRef< SHorizontalBox > buttonHold, ButtonTypes buttonType );	//This is so we can cast to BaseButton.
-	/** Draws a single BaseButton to button hold*/
+	/** Draws a single BaseButton to button hold */
 	void DrawButton( TSharedRef< SHorizontalBox > buttonHold, BaseButton* buttonToDraw ); 
 
+	//Callbacks when seek or select button is pressed
 	void ButtonPressed_Seek( int buttonId );
 	void ButtonPressed_Select( int buttonId );
 		
