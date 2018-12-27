@@ -75,7 +75,7 @@ private:
 	enum DetailsContentTypes { ObjName, ClipName, ClipLength, ClipChannels, ClipSampleRate, ClipTotalSamples, CueCount };
 
 	// max value of an audio sample. (i think its much higher) This is used to work out the button value.
-	int maxSampleValue = 10000;
+	int maxSampleValue = 25000;
 
 	//Min and max size of audio buttons
 	float minButtonSize = 25.0f;	//guaranteed min
