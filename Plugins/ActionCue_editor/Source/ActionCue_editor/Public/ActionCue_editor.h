@@ -105,6 +105,10 @@ private:
 	int seekButtonsToDisplay = 50;
 	TArray< SeekButton* > seekButtons;
 
+	//define the view range using button ids. < 0 is no value. start MUST be less than end.
+	int currentSelectedRange_start = -2;
+	int currentSelectedRange_end = -1;
+
 	//Cue Select Content
 	TSharedPtr< SHorizontalBox > cueSelectContent;
 	void Build_CueSelectContent();

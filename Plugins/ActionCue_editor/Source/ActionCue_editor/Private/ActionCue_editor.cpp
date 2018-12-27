@@ -453,6 +453,28 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 
 void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 {
+	//Find if its the start or end button that has been changed.
+	if ( buttonId == currentSelectedRange_start )
+	{
+		currentSelectedRange_start = -2;
+	}
+	else if ( buttonId == currentSelectedRange_end )
+	{
+		currentSelectedRange_end = -1;
+	}
+	else if ( buttonId < currentSelectedRange_end )
+	{
+		if(currentSelectedRange_start >= 0)
+			seekButtons[currentSelectedRange_start]->Set( false );
+		currentSelectedRange_start = buttonId;
+	}
+	else if ( buttonId > currentSelectedRange_end )
+	{
+		if ( currentSelectedRange_end >= 0 )
+			seekButtons[currentSelectedRange_end]->Set( false );
+		currentSelectedRange_end = buttonId;
+	}
+
 	FString s = "Seek button pressed: " + FString::FromInt( buttonId );
 	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *s );
 
