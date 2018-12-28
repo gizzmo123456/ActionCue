@@ -724,14 +724,14 @@ void FActionCue_editorModule::Build_ToolbarContent()
 
 	] 
 	+ SHorizontalBox::Slot()
-	.MaxWidth( 55.0f )
+	.MaxWidth( 155.0f )
 	.Padding( 5.0f, 5.0f )
 	[
 		SNew( SButton )
 		.OnClicked_Raw( this, &FActionCue_editorModule::RefreshContent_select )
 		[
 			SNew( STextBlock )
-			.Text( FText::FromString( "Refresh" ) )
+			.Text( FText::FromString( "Refresh Action Select" ) )
 		]
 	];
 
