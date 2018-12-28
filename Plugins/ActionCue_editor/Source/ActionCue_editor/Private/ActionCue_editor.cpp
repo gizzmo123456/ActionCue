@@ -370,7 +370,6 @@ void FActionCue_editorModule::Update_ButtonsData( ButtonTypes buttonType )
 	int buttonCount = GetButtonsToDisplay( buttonType );
 	BaseButton* button;
 
-	//int endSample;	//I get an error if this is init in the case??? says it get skiped but i intend for it to only be used in case seek. hmmmm silly
 
 	//Extract the button from the array of button type
 	for ( int i = 0; i < buttonCount; i++ )
@@ -450,7 +449,7 @@ void FActionCue_editorModule::Update_buttonData( BaseButton* button, int current
 	//find the sample range
 	int totalSamplesInRange = endSampleRange - startSampleRange;
 	int samplesRange = FMath::CeilToInt( totalSamplesInRange / maxButtonId );
-	//startSampleRange = 0;
+
 	int startSample = startSampleRange + (samplesRange * currentButtonId);
 	int endSample = startSample + samplesRange;
 
