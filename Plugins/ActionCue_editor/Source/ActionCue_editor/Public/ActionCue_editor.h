@@ -123,6 +123,8 @@ private:
 
 	bool hasSelectAmpData = false;
 
+	void Update_SelectedAudioActorActions( float time, bool add );
+
 	//Details Content
 	TSharedPtr< SVerticalBox > detailsContent;   
 	void Build_DetailsContent();

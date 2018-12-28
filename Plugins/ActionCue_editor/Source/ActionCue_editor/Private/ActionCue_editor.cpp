@@ -565,10 +565,59 @@ void FActionCue_editorModule::ButtonPressed_Select( int buttonId )
 	int sample = cueSelectButtons[buttonId]->GetAvgSample();
 	float time = audioData->SamplesToSeconds(sample);
 
-
-
+	
+	bool addKey = cueSelectButtons[buttonId]->IsSet();
+	Update_SelectedAudioActorActions( time, addKey );
+	
 	FString s = "Select button pressed: " + FString::FromInt( buttonId ) +" Sample: "+FString::FromInt(sample)+" Time: "+FString::SanitizeFloat(time);
 	UE_LOG( LogTemp, Log, TEXT( "%s" ), *s );
+
+}
+
+void FActionCue_editorModule::Update_SelectedAudioActorActions( float time, bool addKey )
+{
+	//Error: nothing to remove
+	if ( !addKey && selectedAudioActor->actionCues.Num() == 0 ) 
+	{
+		FString s = "Selected audio actor has no actions to remove";
+		UE_LOG( LogTemp, Error, TEXT( "%s" ), *s );
+		return;
+	}
+	
+	//Add the first element to the array of actions
+	if ( addKey &&  selectedAudioActor->actionCues.Num() == 0 ) 
+	{
+		selectedAudioActor->actionCues.Add( time );
+		return;
+	}
+
+	// So theres actions, find where to add or what to remove
+	//Todo. Add undo step. See the unreal plugin base script that is after standalone for more info.
+
+	bool done = false;		//so we can print a message if it fails to add or remove.
+
+	for ( int i = 0; i < selectedAudioActor->actionCues.Num(); i++ )
+	{
+		if ( addKey && selectedAudioActor->actionCues[i] > time )
+		{
+			selectedAudioActor->actionCues.Insert( time, i );
+			done = true;
+			break;
+		}
+		else if ( !addKey && selectedAudioActor->actionCues[i] == time )
+		{
+			selectedAudioActor->actionCues.RemoveAt( i );
+			done = true;
+			break;
+		}
+	}
+
+	if ( !done )
+	{
+		FString s = ( addKey ? "add" : "remove" );
+		s = "Failed to " + s + " key at time: " + FString::SanitizeFloat( time );
+		UE_LOG( LogTemp, Error, TEXT( "%s" ), *s );
+	}
 
 }
 
