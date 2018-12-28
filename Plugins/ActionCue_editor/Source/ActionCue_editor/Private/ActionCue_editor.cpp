@@ -404,7 +404,7 @@ void FActionCue_editorModule::Update_ButtonsData( ButtonTypes buttonType )
 					else if ( selectedStart < 0 )
 						selectedStart = 0;
 
-					if ( selectedStart >= 0 && selectedEnd < 0 )
+					if ( selectedStart > 0 && selectedEnd < 0 )
 						selectedEnd = selectedStart;
 					else if ( selectedEnd < 0 )
 						selectedEnd = seekButtons.Num() - 1;
@@ -554,7 +554,7 @@ void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 		currentSelectedRange_end = buttonId;
 	}
 
-	FString s = "Seek button pressed: " + FString::FromInt( buttonId );
+	FString s = "Seek button pressed: " + FString::FromInt( buttonId ) + " || Current selected start: "+FString::FromInt(currentSelectedRange_start)+" Current Selected end:"+FString::FromInt(currentSelectedRange_end);
 	UE_LOG( LogTemp, Log, TEXT( "%s" ), *s );
 
 }
