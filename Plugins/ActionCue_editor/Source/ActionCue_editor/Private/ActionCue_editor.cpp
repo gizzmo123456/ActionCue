@@ -597,9 +597,13 @@ void FActionCue_editorModule::Update_SelectedAudioActorActions( float time, bool
 
 	for ( int i = 0; i < selectedAudioActor->actionCues.Num(); i++ )
 	{
-		if ( addKey && time < selectedAudioActor->actionCues[ i ] || i == selectedAudioActor->actionCues.Num()-1 )
+		if ( addKey && (time < selectedAudioActor->actionCues[ i ] || i == selectedAudioActor->actionCues.Num()-1) )
 		{
-			selectedAudioActor->actionCues.Insert( time, i );
+			//Add it to the end if its after time
+			if( time > selectedAudioActor->actionCues[i] )
+				selectedAudioActor->actionCues.Add( time );
+			else
+				selectedAudioActor->actionCues.Insert( time, i );
 			done = true;
 			break;
 		}
