@@ -370,6 +370,8 @@ void FActionCue_editorModule::Update_ButtonsData( ButtonTypes buttonType )
 	int buttonCount = GetButtonsToDisplay( buttonType );
 	BaseButton* button;
 
+	int nectActionCueId = -1;		//used when updating the cue select to update the selected buttons
+
 
 	//Extract the button from the array of button type
 	for ( int i = 0; i < buttonCount; i++ )
@@ -419,6 +421,7 @@ void FActionCue_editorModule::Update_ButtonsData( ButtonTypes buttonType )
 					}
 
 					Update_buttonData( button, i, buttonCount, selectedStartRange, selectedEndRange );
+					nectActionCueId = Update_ButtonIsSet( button, nectActionCueId, selectedStartRange, selectedEndRange );
 				}
 
 				break;
@@ -465,6 +468,69 @@ void FActionCue_editorModule::Update_buttonData( BaseButton* button, int current
 	button->SetSampleRange( startSample, endSample );
 	button->SetValue( audioData->GetAmplitudeData( startSample, endSample ) / maxSampleValue );
 
+}
+
+int FActionCue_editorModule::Update_ButtonIsSet( BaseButton* button, int actionCueId, int startSample, int endSample )
+{
+	if ( !selectedAudioActor ) return -1;
+	FString s = "";  //debuging
+
+	//find the first action key
+	if ( actionCueId == -1 )
+	{		
+		bool found = false;		// so we can return if no action is found to be in range.
+
+		//find which action if any is in range
+		for ( int i = 0; i < selectedAudioActor->actionCues.Num(); i++ )
+		{
+			int actionCueSample = audioData->SecondsToSamples( selectedAudioActor->actionCues[i] );
+
+			if ( actionCueSample >= startSample && actionCueSample <= endSample )
+			{
+				actionCueId = i;
+				found = true;
+				break;
+			}
+
+		}
+		
+		if(!found)
+		{
+			actionCueId = -2;
+		}
+
+		s = ( found ? "true" : "false");
+
+	}
+
+	s = "<<>> " + FString::FromInt( actionCueId ) + " :: " + s;
+	UE_LOG( LogTemp, Log, TEXT( "%s" ), *s );
+
+	// Set the button to its correct state.
+	if ( actionCueId >= 0 )
+	{
+		int actionCueSample = audioData->SecondsToSamples( selectedAudioActor->actionCues[actionCueId] );
+
+		if ( button->IsSampleInRange( actionCueSample ) )
+		{
+			button->Set( true );
+			actionCueId++;
+			// check that the action cue is still in range
+			if ( actionCueId >= selectedAudioActor->actionCues.Num() )
+				actionCueId = 0;
+		}
+		else
+		{
+			button->Set( false );
+		}
+
+	}
+	else
+	{
+		button->Set( false );
+	}
+
+	return actionCueId;
 }
 
 void FActionCue_editorModule::DrawButtons( TSharedRef<SHorizontalBox> buttonHold, ButtonTypes buttonType )

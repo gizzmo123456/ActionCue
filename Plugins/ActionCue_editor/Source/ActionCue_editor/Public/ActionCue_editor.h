@@ -90,6 +90,12 @@ private:
 	/** Update a single BaseButton */
 	void Update_buttonData(BaseButton* button, int currentButtonId, int maxButtonId, int startSampleRange, int endSampleRange);
 
+	/* use to correct the select cue button when resizing
+	** @Param actionCueId:	Action cue id to test, -1 will search for the first action cue to test and -2 will only turn button off
+	** @return:				Next actionCueId to test, or -2 when it goes out of range
+	*/
+	int Update_ButtonIsSet( BaseButton* button, int actionCueId, int startSample, int endSample );
+
 	/** Draws all buttons of type to button hold */
 	void DrawButtons( TSharedRef< SHorizontalBox > buttonHold, ButtonTypes buttonType );	//This is so we can cast to BaseButton.
 	/** Draws a single BaseButton to button hold */
