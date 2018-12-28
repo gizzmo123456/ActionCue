@@ -28,4 +28,7 @@ public:
 	UPROPERTY( EditAnywhere, BlueprintReadWrite, Category = "Audio" )
 		USoundWave* audioClip;
 	
+	UPROPERTY( EditAnywhere, BlueprintReadOnly, Category = "Audio" )
+		TArray<float> actionCues;
+
 };
