@@ -100,3 +100,13 @@ void AudioUtills::SetAudioClip( USoundWave* clip )
 	audioClip->RawData.Unlock();
 
 }
+
+float AudioUtills::SamplesToSeconds( int sample )
+{
+	return (float)sample / (float)sampleRate;
+}
+
+int AudioUtills::SecondsToSamples( float time )
+{
+	return FMath::FloorToInt(time * sampleRate);
+}

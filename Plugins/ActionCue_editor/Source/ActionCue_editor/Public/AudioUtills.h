@@ -23,8 +23,12 @@ public:
 		@Param endSample:			End of the sample range		
 	*/
 	float GetAmplitudeData(int startSample, int endSample);
-
+	
 	void SetAudioClip(USoundWave* clip);
+
+	// Time converter functions
+	float SamplesToSeconds( int samp );
+	int SecondsToSamples( float time );
 
 	int totalSamples = 0;
 	int channels = 0;
