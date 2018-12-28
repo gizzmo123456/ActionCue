@@ -39,8 +39,8 @@ float AudioUtills::GetAmplitudeData(int startSample, int endSample )
 		startSample *= channels;
 		endSample *= channels;
 
-		if ( endSample >= totalSamples )
-			endSample = ( totalSamples - 1 );
+		if ( endSample >= (totalSamples * channels) )
+			endSample = ( (totalSamples * channels) - 1 );
 
 		int32 sampleRange = endSample - startSample;
 
@@ -56,7 +56,7 @@ float AudioUtills::GetAmplitudeData(int startSample, int endSample )
 			samplePtr += channels;
 		}
 
-		avgSampleValue /= ( sampleRange / 2.0f );
+		avgSampleValue /=  ( sampleRange / 2.0f );
 
 	}
 
@@ -94,7 +94,7 @@ void AudioUtills::SetAudioClip( USoundWave* clip )
 	{
 		channels = clip->NumChannels;
 		sampleRate = *waveInfo.pSamplesPerSec;
-		totalSamples = sampleRate * audioClip->GetDuration();
+		totalSamples = sampleRate * audioClip->GetDuration();	//This is the total samples for a single channel. GetAmp deals with the channels
 	}
 
 	audioClip->RawData.Unlock();
