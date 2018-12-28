@@ -259,7 +259,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 		.Padding( 15.0f, 25.0f, 15.0f, -25.0f )
 		[
 			SNew( STextBlock )
-			.Text( FText::FromString( TEXT( "Action Cue BETA v0.3 By Ashley Sands" ) ) )
+			.Text( FText::FromString( TEXT( "Action Cue BETA v0.4 By Ashley Sands" ) ) )
 		]
 		+SVerticalBox::Slot()
 		.MaxHeight(625.0f)
