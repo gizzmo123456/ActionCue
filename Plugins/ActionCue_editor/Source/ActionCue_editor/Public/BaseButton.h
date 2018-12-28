@@ -40,6 +40,9 @@ public:
 	/** Assign the sample range for this button */
 	void SetSampleRange( int startSanp, int endSamp ); 
 
+	//gets the average sample in the range (or the mid sample)
+	int GetAvgSample();
+
 	// button pressed callback to send the button ID back to ActionCue_editor
 	FButtonPressed OnButtonPressed;
 

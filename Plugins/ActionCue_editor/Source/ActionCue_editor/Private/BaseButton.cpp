@@ -53,6 +53,11 @@ int BaseButton::GetSample( SampleRangeType rangeType )
 	}
 }
 
+int BaseButton::GetAvgSample()
+{
+	return FMath::FloorToInt( (startSample + endSample) / 2.0f );
+}
+
 bool BaseButton::IsSampleInRange( int sampId )
 {
 	return sampId >= startSample && sampId <= endSample;
