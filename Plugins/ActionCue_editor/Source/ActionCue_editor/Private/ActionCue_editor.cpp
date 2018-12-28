@@ -566,14 +566,14 @@ void FActionCue_editorModule::ButtonPressed_Select( int buttonId )
 
 	
 	bool addKey = cueSelectButtons[buttonId]->IsSet();
-	Update_SelectedAudioActorActions( time, addKey );
+	Update_SelectedAudioActorActions( time, addKey, buttonId );
 	
 	FString s = "Select button pressed: " + FString::FromInt( buttonId ) +" Sample: "+FString::FromInt(sample)+" Time: "+FString::SanitizeFloat(time);
 	UE_LOG( LogTemp, Log, TEXT( "%s" ), *s );
 
 }
 
-void FActionCue_editorModule::Update_SelectedAudioActorActions( float time, bool addKey )
+void FActionCue_editorModule::Update_SelectedAudioActorActions( float time, bool addKey, int buttonId )
 {
 	//Error: nothing to remove
 	if ( !addKey && selectedAudioActor->actionCues.Num() == 0 ) 
@@ -604,10 +604,11 @@ void FActionCue_editorModule::Update_SelectedAudioActorActions( float time, bool
 				selectedAudioActor->actionCues.Add( time );
 			else
 				selectedAudioActor->actionCues.Insert( time, i );
+
 			done = true;
 			break;
 		}
-		else if ( !addKey && selectedAudioActor->actionCues[i] == time )	//Todo. needs to check if its in range of the selected button!
+		else if ( !addKey && cueSelectButtons[buttonId]->IsSampleInRange( audioData->SecondsToSamples( selectedAudioActor->actionCues[i] ) ) )
 		{
 			selectedAudioActor->actionCues.RemoveAt( i );
 			done = true;
