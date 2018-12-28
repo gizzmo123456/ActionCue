@@ -597,13 +597,13 @@ void FActionCue_editorModule::Update_SelectedAudioActorActions( float time, bool
 
 	for ( int i = 0; i < selectedAudioActor->actionCues.Num(); i++ )
 	{
-		if ( addKey && selectedAudioActor->actionCues[i] > time )
+		if ( addKey && time < selectedAudioActor->actionCues[ i ] || i == selectedAudioActor->actionCues.Num()-1 )
 		{
 			selectedAudioActor->actionCues.Insert( time, i );
 			done = true;
 			break;
 		}
-		else if ( !addKey && selectedAudioActor->actionCues[i] == time )
+		else if ( !addKey && selectedAudioActor->actionCues[i] == time )	//Todo. needs to check if its in range of the selected button!
 		{
 			selectedAudioActor->actionCues.RemoveAt( i );
 			done = true;
