@@ -445,8 +445,11 @@ void FActionCue_editorModule::Update_buttonData( BaseButton* button, int current
 
 int FActionCue_editorModule::Update_ButtonIsSet( BaseButton* button, int actionCueId, int startSample, int endSample )
 {
-	if ( !selectedAudioActor ) return -1;
-	FString s = "";  //debuging
+	// if theres is nothing selected there no point looking for cue data (plus it will crash) 
+	// so just override it so it just deselects all the buttons :)
+	if ( !selectedAudioActor ) actionCueId = -2;	
+
+	FString s = "";  //debugging
 
 	//find the first action key
 	if ( actionCueId == -1 )
