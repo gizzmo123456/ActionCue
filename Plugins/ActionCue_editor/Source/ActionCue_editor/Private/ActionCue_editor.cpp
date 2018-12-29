@@ -595,7 +595,9 @@ void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 			currentSelectedRange_end = -1;
 		}
 	}// Move the start point if select before the start point or if we are closer to start than end
-	else if ( buttonId < currentSelectedRange_start ||  (buttonId < currentSelectedRange_end && buttonId - currentSelectedRange_start <= FMath::CeilToInt( buttonSelectRangeMidPoint ) ) ) 
+	else if ( buttonId < currentSelectedRange_start 
+			  ||  (buttonId < currentSelectedRange_end && buttonId - currentSelectedRange_start <= FMath::CeilToInt( buttonSelectRangeMidPoint ) ) 
+			  || (currentSelectedRange_start < 0 && buttonId < currentSelectedRange_end) ) 
 	{ 
 		if(currentSelectedRange_start >= 0)
 			seekButtons[currentSelectedRange_start]->Set( false );
@@ -613,6 +615,7 @@ void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 		currentSelectedRange_end = buttonId;
 
 	}
+
 
 	FString s = "Seek button pressed: " + FString::FromInt( buttonId ) + " || Current selected start: "+FString::FromInt(currentSelectedRange_start)+" Current Selected end:"+FString::FromInt(currentSelectedRange_end);
 	UE_LOG( LogTemp, Log, TEXT( "%s" ), *s );
