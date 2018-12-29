@@ -355,11 +355,16 @@ void FActionCue_editorModule::Update_ButtonsData( ButtonTypes buttonType )
 
 				{
 					int endSample = seekButtons[seekButtons.Num() - 1]->GetSample( BaseButton::SampleRangeType::End );
+					button = seekButtons[i];
 
 					if ( !hasSeekAmpData )
+					{
 						endSample = audioData->totalSamples - 1;
 
-					button = seekButtons[i];
+						if(!hasSelectAmpData) //deselect buttons if a rebuild of the select amp data is also required.
+							Update_ButtonIsSet( button, -2, 0, endSample );	//action cue id is always -2 to force deselect.
+					}
+
 					Update_buttonData( button, i, buttonCount, 0, endSample );
 
 				}
