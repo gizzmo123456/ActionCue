@@ -343,7 +343,7 @@ void FActionCue_editorModule::Update_ButtonsData( ButtonTypes buttonType )
 	int buttonCount = GetButtonsToDisplay( buttonType );
 	BaseButton* button;
 
-	int nectActionCueId = -1;		//used when updating the cue select to update the selected buttons
+	int nextActionCueId = -1;		//used when updating the cue select to update the selected buttons
 
 
 	//Extract the button from the array of button type
@@ -394,7 +394,7 @@ void FActionCue_editorModule::Update_ButtonsData( ButtonTypes buttonType )
 					}
 
 					Update_buttonData( button, i, buttonCount, selectedStartRange, selectedEndRange );
-					nectActionCueId = Update_ButtonIsSet( button, nectActionCueId, selectedStartRange, selectedEndRange );
+					nextActionCueId = Update_ButtonIsSet( button, nextActionCueId, selectedStartRange, selectedEndRange );
 				}
 
 				break;
