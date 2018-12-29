@@ -176,14 +176,18 @@ void FActionCue_editorModule::SelectionChanged( UObject* obj )
 	** Todo. this all needs its own function??
 	*/
 
-	//refresh button data
+	// reset the select range.
+	currentSelectedRange_start = currentSelectedRange_end = -1;
+
+	// refresh button data
 	Update_ButtonsData( ButtonTypes::Seek );
 	Update_ButtonsData( ButtonTypes::Select );
 
-	// Build all content
+	// Build content
 	Build_SeekContent();
 	Build_CueSelectContent();
 	Build_DetailsContent();
+
 	RepaintTab();
 
 	FString audioActorName = ( !selectedAudio ? "None" : selectedAudioActor->GetName() );
