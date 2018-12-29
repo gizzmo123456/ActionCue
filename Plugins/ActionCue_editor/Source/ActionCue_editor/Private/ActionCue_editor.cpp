@@ -590,8 +590,11 @@ void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 	}
 	else if ( buttonId > currentSelectedRange_end )
 	{
-		if ( currentSelectedRange_end >= 0 )
+		if ( currentSelectedRange_start < 0 )	//if there is no start set start to end	
+			currentSelectedRange_start = currentSelectedRange_end;
+		else if ( currentSelectedRange_end >= 0 )
 			seekButtons[currentSelectedRange_end]->Set( false );
+
 		currentSelectedRange_end = buttonId;
 	}
 
