@@ -102,6 +102,8 @@ private:
 	/** Draws a single BaseButton to button hold */
 	void DrawButton( TSharedRef< SHorizontalBox > buttonHold, BaseButton* buttonToDraw ); 
 
+	FString GetSamplesToButtonRatio( FString lable, int sampleRange, int buttonCount );
+
 	//Callbacks when seek or select button is pressed
 	void ButtonPressed_Seek( int buttonId );
 	void ButtonPressed_Select( int buttonId );

@@ -222,7 +222,6 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 */
 
 	float audioTopPadding = (maxButtonSize - minButtonSize) + 45.0f;
-	FString zoomText = "Seek Zoom 1:" + FString::FromInt( FMath::FloorToInt( audioData->totalSamples / seekButtonsToDisplay ) ); //TEMP
 
 	//Create the main content hold
 	TSharedRef<SBox> content = SNew( SBox )
@@ -259,7 +258,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 				[
 					// Seek bar
 					SNew( STextBlock )
-					.Text( FText::FromString( zoomText ) )
+					.Text( FText::FromString( GetSamplesToButtonRatio( "Seek Zoom", audioData->totalSamples, seekButtonsToDisplay ) ) )
 				]
 				+ SVerticalBox::Slot()
 				.MaxHeight( 550.0f )
@@ -596,6 +595,13 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 			buttonHeightBox
 		];
 
+}
+
+FString FActionCue_editorModule::GetSamplesToButtonRatio( FString lable, int sampleRange, int buttonCount )
+{
+	lable += " 1:" + FString::FromInt( FMath::FloorToInt( sampleRange / buttonCount ) );
+	
+	return lable;
 }
 
 void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
