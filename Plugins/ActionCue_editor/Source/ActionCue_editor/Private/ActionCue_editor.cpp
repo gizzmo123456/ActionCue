@@ -85,55 +85,15 @@ TSharedRef<SDockTab> FActionCue_editorModule::OnSpawnPluginTab(const FSpawnTabAr
 
 	FirstRun();
 
-	///////////// TEMP place holds
-	seekContent = SNew( SHorizontalBox )
-	+ SHorizontalBox::Slot()
-	[
-		SNew( SBox )
-		.HAlign( HAlign_Center )
-		.VAlign( VAlign_Center )
-		[
-			SNew( STextBlock )
-			.Text( FText::FromString( TEXT( "Im The Seek Content" ) ) )
+	// Create the basic button data
+	Update_ButtonsData( ButtonTypes::Seek );
+	Update_ButtonsData( ButtonTypes::Select );
 
-		]
-	];
-
-	cueSelectContent = SNew( SHorizontalBox )
-	+ SHorizontalBox::Slot()
-	[
-		SNew( SBox )
-		.HAlign( HAlign_Center )
-		.VAlign( VAlign_Center )
-		[
-			SNew( STextBlock )
-			.Text( FText::FromString( TEXT( "Im The Cue Select Content" ) ) )
-		]
-	];
-
-	detailsContent = SNew( SVerticalBox )
-	+ SVerticalBox::Slot()
-	[
-		SNew( SBox )
-		.HAlign( HAlign_Center )
-		.VAlign( VAlign_Center )
-		[
-			SNew( STextBlock )
-			.Text( FText::FromString( TEXT( "Im The details content" ) ) )
-		]
-	];
-
-	toolbarContent = SNew( SHorizontalBox )
-	+SHorizontalBox::Slot()
-	.MaxWidth(45.0f)
-	.Padding(5.0f, 5.0f)
-	[
-		SNew( SButton )
-		.OnClicked_Raw( this, &FActionCue_editorModule::TEMP_ButtonAction )
-		.Text(FText::FromString(FString("Load")))
-	];
-
-	/////////// Eof TEMP place holds
+	// Build all content
+	Build_SeekContent();
+	Build_CueSelectContent();
+	Build_DetailsContent();
+	Build_ToolbarContent();
 
 	return  SNew( SDockTab )
 		.TabRole( ETabRole::NomadTab )
