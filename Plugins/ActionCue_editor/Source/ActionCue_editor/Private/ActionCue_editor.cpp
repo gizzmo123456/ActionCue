@@ -565,7 +565,11 @@ void FActionCue_editorModule::DrawButton( TSharedRef< SHorizontalBox > buttonHol
 
 void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 {
-	//Find if its the start or end button that has been changed.
+	// Get the range so we can work out which end to move.
+	int buttonSelectRangeMidPoint = (currentSelectedRange_end - currentSelectedRange_start) / 2.0f;
+
+	// Find if its the start or end button that has been changed.
+
 	if ( buttonId == currentSelectedRange_start )
 	{
 		currentSelectedRange_start = -1;
@@ -581,14 +585,16 @@ void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 		{
 			currentSelectedRange_end = -1;
 		}
-	}
-	else if ( buttonId < currentSelectedRange_end )
-	{
+	}// Move the start point if select before the start point or if we are closer to start than end
+	else if ( buttonId < currentSelectedRange_start ||  (buttonId < currentSelectedRange_end && buttonId - currentSelectedRange_start <= FMath::CeilToInt( buttonSelectRangeMidPoint ) ) ) 
+	{ 
 		if(currentSelectedRange_start >= 0)
 			seekButtons[currentSelectedRange_start]->Set( false );
+
 		currentSelectedRange_start = buttonId;
-	}
-	else if ( buttonId > currentSelectedRange_end )
+
+	}// Move the end point if select after the end point or if we are closer to the end than the start
+	else if ( buttonId > currentSelectedRange_end || currentSelectedRange_end - buttonId <= FMath::FloorToInt( buttonSelectRangeMidPoint ) )
 	{
 		if ( currentSelectedRange_start < 0 )	//if there is no start set start to end	
 			currentSelectedRange_start = currentSelectedRange_end;
@@ -596,6 +602,7 @@ void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 			seekButtons[currentSelectedRange_end]->Set( false );
 
 		currentSelectedRange_end = buttonId;
+
 	}
 
 	FString s = "Seek button pressed: " + FString::FromInt( buttonId ) + " || Current selected start: "+FString::FromInt(currentSelectedRange_start)+" Current Selected end:"+FString::FromInt(currentSelectedRange_end);
