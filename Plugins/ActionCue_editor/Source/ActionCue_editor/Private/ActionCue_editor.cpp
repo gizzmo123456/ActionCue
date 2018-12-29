@@ -221,7 +221,8 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 |---------------------------------------------|
 */
 
-	float audioTopPadding = (maxButtonSize - minButtonSize) + 25.0f;
+	float audioTopPadding = (maxButtonSize - minButtonSize) + 45.0f;
+	FString zoomText = "Seek Zoom 1:" + FString::FromInt( FMath::FloorToInt( audioData->totalSamples / seekButtonsToDisplay ) ); //TEMP
 
 	//Create the main content hold
 	TSharedRef<SBox> content = SNew( SBox )
@@ -250,8 +251,25 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 			.MaxWidth(1320.0f)
 			.Padding(0.0f, 0.0f, 0.0f, 0.0f)
 			[
-				//Sample Seek content
-				seekContent.ToSharedRef()
+				SNew(SVerticalBox)
+				+ SVerticalBox::Slot()
+				.MaxHeight( 25.0f )
+				.VAlign( VAlign_Top )
+				.Padding( 0.0f, -audioTopPadding-15.0f, 0.0f, 0.0f )
+				[
+					// Seek bar
+					SNew( STextBlock )
+					.Text( FText::FromString( zoomText ) )
+				]
+				+ SVerticalBox::Slot()
+				.MaxHeight( 550.0f )
+				.VAlign( VAlign_Bottom )
+				.Padding( 0.0f, 0.0f, 0.0f, 0.0f )
+				[
+					//Sample Seek content
+					seekContent.ToSharedRef()
+				]
+				
 			]
 	
 			+SHorizontalBox::Slot()
@@ -263,15 +281,6 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 				//Details Content
 				detailsContent.ToSharedRef()
 			]
-		]
-		+ SVerticalBox::Slot()
-		.MaxHeight( 25.0f )
-		.VAlign(VAlign_Bottom)
-		.Padding( 0.0f, 100.0f, 0.0f, -50.0f )
-		[
-			// Seek bar
-			SNew( STextBlock )
-			.Text( FText::FromString( TEXT( "Seek Bar" ) ) )
 		]
 		+SVerticalBox::Slot()
 		.MaxHeight(35.0f)
