@@ -387,23 +387,10 @@ void FActionCue_editorModule::Update_ButtonsData( ButtonTypes buttonType )
 
 				{
 					button = cueSelectButtons[i];
-					//check the current buttons are in range if not set them to display all.
-					int selectedStart = currentSelectedRange_start;
-					int selectedEnd = currentSelectedRange_end;
-
-					if ( selectedStart < 0 && selectedEnd >= 0 )
-						selectedStart = selectedEnd;
-					else if ( selectedStart < 0 )
-						selectedStart = 0;
-
-					if ( selectedStart > 0 && selectedEnd < 0 )
-						selectedEnd = selectedStart;
-					else if ( selectedEnd < 0 )
-						selectedEnd = seekButtons.Num() - 1;
-
+					
 					//transform the button id's into sample range
-					int selectedStartRange = seekButtons[selectedStart]->GetSample( BaseButton::SampleRangeType::Start );
-					int selectedEndRange = seekButtons[selectedEnd]->GetSample( BaseButton::SampleRangeType::End );
+					int selectedStartRange = GetSeekSampleValue( BaseButton::SampleRangeType::Start );
+					int selectedEndRange = GetSeekSampleValue( BaseButton::SampleRangeType::End );
 
 					if ( !hasSelectAmpData )
 					{
@@ -426,6 +413,36 @@ void FActionCue_editorModule::Update_ButtonsData( ButtonTypes buttonType )
 	else if ( buttonType == ButtonTypes::Select )
 		hasSelectAmpData = true;
 
+}
+
+int FActionCue_editorModule::GetSeekSampleValue( BaseButton::SampleRangeType rangeType )
+{
+	int selectedStart = currentSelectedRange_start;
+	int selectedEnd = currentSelectedRange_end;
+
+	switch ( rangeType )
+	{
+		case BaseButton::SampleRangeType::Start:
+
+			if ( selectedStart < 0 && selectedEnd >= 0 )
+				selectedStart = selectedEnd;
+			else if ( selectedStart < 0 )
+				selectedStart = 0;
+
+			return seekButtons[selectedStart]->GetSample( BaseButton::SampleRangeType::Start );
+
+		case BaseButton::SampleRangeType::End:
+
+			if ( selectedStart > 0 && selectedEnd < 0 )
+				selectedEnd = selectedStart;
+			else if ( selectedEnd < 0 )
+				selectedEnd = seekButtons.Num() - 1;
+
+			return seekButtons[selectedEnd]->GetSample( BaseButton::SampleRangeType::End );
+
+		default:
+			return 0;
+	}
 }
 
 void FActionCue_editorModule::Update_buttonData( BaseButton* button, int currentButtonId, int maxButtonId, int startSampleRange, int endSampleRange )

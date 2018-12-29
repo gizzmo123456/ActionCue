@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
+#include "BaseButton.h"
 
 class FToolBarBuilder;
 class FMenuBuilder;
@@ -16,7 +17,7 @@ class SHorizontalBox;
 class SVerticalBox;
 class FReply;
 
-class BaseButton;
+//class BaseButton;
 class SeekButton;
 class CueSelectButton;
 
@@ -116,7 +117,10 @@ private:
 
 	bool hasSeekAmpData = false;
 
-	//define the view range using button ids. < 0 is no value.
+	// takes no selection into account
+	int GetSeekSampleValue( BaseButton::SampleRangeType rangeType );  
+
+	//define the view range using button ids. < 0 is no value. 
 	int currentSelectedRange_start = -1;
 	int currentSelectedRange_end = -1;
 
