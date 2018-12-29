@@ -185,6 +185,7 @@ void FActionCue_editorModule::SelectionChanged( UObject* obj )
 
 	// Build content
 	Build_SeekContent();
+	Build_ToolbarContent();
 	Build_CueSelectContent();
 	Build_DetailsContent();
 
@@ -813,6 +814,8 @@ TSharedRef<SHorizontalBox> FActionCue_editorModule::DetailsRow( FString lable, F
 void FActionCue_editorModule::Build_ToolbarContent()
 {
 
+	int sampleRange = GetSeekSampleValue( BaseButton::SampleRangeType::End ) - GetSeekSampleValue( BaseButton::SampleRangeType::Start );
+
 	toolbarContent = SNew( SHorizontalBox )
 	+ SHorizontalBox::Slot()
 	.MaxWidth( 55.0f )
@@ -833,6 +836,13 @@ void FActionCue_editorModule::Build_ToolbarContent()
 			SNew( STextBlock )
 			.Text( FText::FromString( "Refresh Action Select" ) )
 		]
+	]
+	+ SHorizontalBox::Slot()
+	.MaxWidth( 155.0f )
+	.Padding( 5.0f, 5.0f )
+	[
+		SNew( STextBlock )
+		.Text( FText::FromString( GetSamplesToButtonRatio( "Select Zoom", sampleRange, cueSelectButtonsToDisplay ) ) )
 	];
 
 }
@@ -878,6 +888,7 @@ FString FActionCue_editorModule::GetDetailsValues( DetailsContentTypes dcType )
 FReply FActionCue_editorModule::RefreshContent_select()
 {
 	Update_ButtonsData( ButtonTypes::Select );
+	Build_ToolbarContent();
 	Build_CueSelectContent();
 	RepaintTab();
 
