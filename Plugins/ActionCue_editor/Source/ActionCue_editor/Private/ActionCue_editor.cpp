@@ -160,24 +160,37 @@ void FActionCue_editorModule::SelectionChanged( UObject* obj )
 	//Get the last object that was selected that inherits form ABaseAudioActor
 	ABaseAudioActor* selectedAudio = GEditor->GetSelectedActors()->GetBottom<ABaseAudioActor>();
 
-	if ( selectedAudio == nullptr ) return;	// No BaseAudioActor selected
+	if ( selectedAudio == selectedAudioActor ) return;	// Nothing has really changed.
 
-	if ( selectedAudio != selectedAudioActor )
-	{
-		hasSeekAmpData = false;
-		hasSelectAmpData = false;
-	}
-
+	// Flag that we need to refresh the amp data
+	hasSeekAmpData = false;
+	hasSelectAmpData = false;
+	
 	selectedAudioActor = selectedAudio;
-	audioData->SetAudioClip( selectedAudioActor->audioClip );
 
-	FString msg = "Selection Changed: " + selectedAudioActor->GetName();// GetFullName();
-	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *msg );
+	USoundWave* audioClip = ( !selectedAudio ? nullptr : selectedAudioActor->audioClip );	// prevent crash if selectedAudio is null
+	audioData->SetAudioClip( audioClip );
 
-	// Todo. this all needs its own function
-	//Rebuild details content and repaint
+	/*
+	** Rebuild data and repaint tab
+	** Todo. this all needs its own function??
+	*/
+
+	//refresh button data
+	Update_ButtonsData( ButtonTypes::Seek );
+	Update_ButtonsData( ButtonTypes::Select );
+
+	// Build all content
+	Build_SeekContent();
+	Build_CueSelectContent();
 	Build_DetailsContent();
 	RepaintTab();
+
+	FString audioActorName = ( !selectedAudio ? "None" : selectedAudioActor->GetName() );
+	FString msg = "Selection Changed: " + audioActorName;// GetFullName();
+	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *msg );
+
+
 
 }
 
