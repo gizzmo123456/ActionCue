@@ -283,7 +283,7 @@ TSharedRef<SBox> FActionCue_editorModule::BuildContent_Display()
 			]
 		]
 		+SVerticalBox::Slot()
-		.MaxHeight(35.0f)
+		.MaxHeight(40.0f)
 		.Padding( 0.0f, 50.0f, 0.0f, 20.0f )
 		[
 			//Cue Tools
@@ -815,6 +815,7 @@ void FActionCue_editorModule::Build_ToolbarContent()
 {
 
 	int sampleRange = GetSeekSampleValue( BaseButton::SampleRangeType::End ) - GetSeekSampleValue( BaseButton::SampleRangeType::Start );
+	FString buttonLengthSec = FString::SanitizeFloat( audioData->SamplesToSeconds( FMath::FloorToInt( sampleRange / cueSelectButtonsToDisplay ) ) );
 
 	toolbarContent = SNew( SHorizontalBox )
 	+ SHorizontalBox::Slot()
@@ -838,11 +839,11 @@ void FActionCue_editorModule::Build_ToolbarContent()
 		]
 	]
 	+ SHorizontalBox::Slot()
-	.MaxWidth( 155.0f )
+	.MaxWidth( 210.0f )
 	.Padding( 5.0f, 5.0f )
 	[
 		SNew( STextBlock )
-		.Text( FText::FromString( GetSamplesToButtonRatio( "Select Zoom", sampleRange, cueSelectButtonsToDisplay ) ) )
+		.Text( FText::FromString( GetSamplesToButtonRatio( "Select Zoom", sampleRange, cueSelectButtonsToDisplay ) + "\nButton length " + buttonLengthSec + " Seconds" ) )
 	];
 
 }
