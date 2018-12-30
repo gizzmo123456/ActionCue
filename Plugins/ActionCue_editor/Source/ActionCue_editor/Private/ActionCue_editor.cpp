@@ -470,8 +470,8 @@ void FActionCue_editorModule::Update_buttonData( BaseButton* button, int current
 	else if ( endSample >= audioData->totalSamples )
 		endSample = audioData->totalSamples - 1;
 	
-	FString s = "StartSamp: " + FString::FromInt( startSampleRange ) + " EndSamp: " + FString::FromInt( endSampleRange ) + " TotalSamp: "+FString::FromInt(audioData->totalSamples);
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *s)
+	//FString s = "StartSamp: " + FString::FromInt( startSampleRange ) + " EndSamp: " + FString::FromInt( endSampleRange ) + " TotalSamp: "+FString::FromInt(audioData->totalSamples);
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *s)
 
 	button->SetSampleRange( startSample, endSample );
 	button->SetValue( audioData->GetAmplitudeData( startSample, endSample ) / maxSampleValue );
@@ -514,8 +514,8 @@ int FActionCue_editorModule::Update_ButtonIsSet( BaseButton* button, int actionC
 
 	}
 
-	s = "<<>> " + FString::FromInt( actionCueId ) + " :: " + s;
-	UE_LOG( LogTemp, Log, TEXT( "%s" ), *s );
+	//s = "<<>> " + FString::FromInt( actionCueId ) + " :: " + s;
+	//UE_LOG( LogTemp, Log, TEXT( "%s" ), *s );
 
 	// Set the button to its correct state.
 	if ( actionCueId >= 0 )
