@@ -78,6 +78,9 @@ private:
 	// max value of an audio sample. (i think its much higher) This is used to work out the button value.
 	int maxSampleValue = 25000;
 
+	// Sets the max sample value from the audio loaded into audioData.
+	void SetMaxSampleValue();
+
 	//Min and max size of audio buttons
 	float minButtonSize = 12.5f;	//guaranteed min
 	float maxButtonSize = 225.0f;	//Not guaranteed, this is the max button size when the button value is 1. so its more when the button value is > 1

@@ -179,6 +179,9 @@ void FActionCue_editorModule::SelectionChanged( UObject* obj )
 	// reset the select range.
 	currentSelectedRange_start = currentSelectedRange_end = -1;
 
+	//update the max sample value
+	SetMaxSampleValue();
+
 	// refresh button data
 	Update_ButtonsData( ButtonTypes::Seek );
 	Update_ButtonsData( ButtonTypes::Select );
@@ -196,6 +199,28 @@ void FActionCue_editorModule::SelectionChanged( UObject* obj )
 	UE_LOG( LogTemp, Warning, TEXT( "%s" ), *msg );
 
 
+
+}
+
+void FActionCue_editorModule::SetMaxSampleValue()
+{
+
+	if ( selectedAudioActor == nullptr )
+		return;
+
+	maxSampleValue = 1;
+
+	// start at sample 1 so we dont go over the total samples
+	for ( int i = 1; i < audioData->totalSamples; i++ )
+	{
+		float sampleValue = audioData->GetAmplitudeData( i - 1, i );	//Check a single sample
+
+		if ( sampleValue > maxSampleValue )
+			maxSampleValue = FMath::CeilToInt(sampleValue);
+	}
+
+	FString s = "New Max Sample: " + FString::FromInt( maxSampleValue );
+	UE_LOG( LogTemp, Log, TEXT( "%s" ), *s );
 
 }
 
