@@ -682,6 +682,9 @@ void FActionCue_editorModule::ButtonPressed_Seek( int buttonId )
 
 void FActionCue_editorModule::ButtonPressed_Select( int buttonId )
 {
+
+	if ( !selectedAudioActor ) return;
+
 	//Find the time position of the selected button.
 	int sample = cueSelectButtons[buttonId]->GetAvgSample();
 	float time = audioData->SamplesToSeconds(sample);
